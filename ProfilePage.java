@@ -44,7 +44,7 @@ class ProfilePage extends Frame implements ActionListener {
             }
         });
 
-        setSize(450,300);
+        setExtendedState(Frame.MAXIMIZED_BOTH);
         setVisible(true);
     }
 

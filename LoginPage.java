@@ -13,8 +13,6 @@ class LoginPage extends Frame implements ActionListener{
 
         setTitle("Login Page");
 
-        setLayout(new GridLayout(3,2,10,10));
-
         l1=new Label("Username");
         l2=new Label("Password");
 
@@ -24,15 +22,27 @@ class LoginPage extends Frame implements ActionListener{
         t2.setEchoChar('*');
 
         login=new Button("Login");
+        
+        setLayout(new BorderLayout());
 
-        add(l1);
-        add(t1);
+        Panel p = new Panel();
 
-        add(l2);
-        add(t2);
+        p.setLayout(new GridLayout(3,2,10,10));
 
-        add(new Label(""));
-        add(login);
+        p.add(l1);
+        p.add(t1);
+
+        p.add(l2);
+        p.add(t2);
+
+        p.add(new Label(""));
+        p.add(login);
+
+        Panel center = new Panel(new GridBagLayout());
+
+        center.add(p);
+
+        add(center, BorderLayout.CENTER);
 
         login.addActionListener(this);
 
@@ -46,7 +56,7 @@ class LoginPage extends Frame implements ActionListener{
 
         });
 
-        setSize(300,180);
+        setExtendedState(Frame.MAXIMIZED_BOTH);
         setVisible(true);
 
     }
@@ -56,10 +66,9 @@ class LoginPage extends Frame implements ActionListener{
         String uname=t1.getText();
         String pass=t2.getText();
 
-        
         if(uname.equals("admin") && pass.equals("admin")){
 
-            //new AdminPage();
+            new AdminPage();
 
             dispose();
 
@@ -69,7 +78,8 @@ class LoginPage extends Frame implements ActionListener{
 
         for(int i=0;i<RegistrationPage.count;i++){
 
-            if(RegistrationPage.users[i].username.equals(uname) &&
+            if(RegistrationPage.users[i].username.equals(uname)
+                    &&
                RegistrationPage.users[i].password.equals(pass)){
 
                 new ProfilePage(RegistrationPage.users[i]);
@@ -94,11 +104,9 @@ class LoginPage extends Frame implements ActionListener{
 
         d.add(ok);
 
-        d.setSize(250,120);
-
-        d.setVisible(true);
+        setExtendedState(Frame.MAXIMIZED_BOTH);
+        setVisible(true);
 
     }
 
 }
-

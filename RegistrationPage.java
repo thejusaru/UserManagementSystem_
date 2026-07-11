@@ -13,8 +13,7 @@ class RegistrationPage extends Frame implements ActionListener {
     RegistrationPage() {
 
         setTitle("Registration Page");
-        setLayout(new GridLayout(5,2,10,10));
-
+        
         l1 = new Label("Name");
         l2 = new Label("Username");
         l3 = new Label("Password");
@@ -30,13 +29,34 @@ class RegistrationPage extends Frame implements ActionListener {
         register = new Button("Register");
         login = new Button("Login");
 
-        add(l1); add(t1);
-        add(l2); add(t2);
-        add(l3); add(t3);
-        add(l4); add(t4);
+        setLayout(new BorderLayout());
 
-        add(register);
-        add(login);
+        Panel p = new Panel();
+
+        p.setLayout(new GridLayout(5,2,10,10));
+
+        p.add(l1);
+        p.add(t1);
+
+        p.add(l2);
+        p.add(t2);
+
+        p.add(l3);
+        p.add(t3);
+
+        p.add(l4);
+        p.add(t4);
+
+        p.add(register);
+        p.add(login);
+
+        Panel center = new Panel(new GridBagLayout());
+
+        center.add(p);
+
+        add(center, BorderLayout.CENTER);
+
+        
 
         register.addActionListener(this);
         login.addActionListener(this);
@@ -47,7 +67,7 @@ class RegistrationPage extends Frame implements ActionListener {
             }
         });
 
-        setSize(350,250);
+        setExtendedState(Frame.MAXIMIZED_BOTH);
         setVisible(true);
     }
 
@@ -66,11 +86,9 @@ class RegistrationPage extends Frame implements ActionListener {
             Dialog d=new Dialog(this,"Message",true);
             d.setLayout(new FlowLayout());
             d.add(new Label("Registration Successful"));
-
             Button ok=new Button("OK");
             ok.addActionListener(a->d.dispose());
             d.add(ok);
-            
             d.setSize(220,120);
             d.setVisible(true);
 
@@ -91,4 +109,3 @@ class RegistrationPage extends Frame implements ActionListener {
     }
 
 }
-

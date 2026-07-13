@@ -1,111 +1,228 @@
 import java.awt.*;
 import java.awt.event.*;
 
-class LoginPage extends Frame implements ActionListener{
+public class LoginPage extends Frame implements ActionListener {
 
-    Label l1,l2;
+    Label title;
+    Label l1, l2;
 
-    TextField t1,t2;
+    TextField txtUsername;
+    TextField txtPassword;
 
-    Button login;
+    Button btnLogin;
+    Button btnBack;
 
-    LoginPage(){
+    FileManager fileManager;
 
-        setTitle("Login Page");
+    LoginPage() {
 
-        l1=new Label("Username");
-        l2=new Label("Password");
+        fileManager = new FileManager();
 
-        t1=new TextField();
-        t2=new TextField();
+        setTitle("User Login");
 
-        t2.setEchoChar('*');
+        setExtendedState(Frame.MAXIMIZED_BOTH);
 
-        login=new Button("Login");
-        
         setLayout(new BorderLayout());
 
-        Panel p = new Panel();
 
-        p.setLayout(new GridLayout(3,2,10,10));
+        Panel top = new Panel();
 
-        p.add(l1);
-        p.add(t1);
+        title = new Label("USER LOGIN", Label.CENTER);
 
-        p.add(l2);
-        p.add(t2);
+        title.setFont(new Font("Arial", Font.BOLD, 28));
 
-        p.add(new Label(""));
-        p.add(login);
+        top.add(title);
 
-        Panel center = new Panel(new GridBagLayout());
+        add(top, BorderLayout.NORTH);
 
-        center.add(p);
 
-        add(center, BorderLayout.CENTER);
+        Panel form = new Panel();
 
-        login.addActionListener(this);
+        form.setLayout(new GridLayout(3, 2, 15, 15));
 
-        addWindowListener(new WindowAdapter(){
+        l1 = new Label("Username");
+        l2 = new Label("Password");
 
-            public void windowClosing(WindowEvent e){
+        txtUsername = new TextField();
 
-                dispose();
+        txtPassword = new TextField();
+        txtPassword.setEchoChar('*');
+
+        form.add(l1);
+        form.add(txtUsername);
+
+        form.add(l2);
+        form.add(txtPassword);
+
+
+        Panel buttons = new Panel();
+
+        btnLogin = new Button("Login");
+
+        btnBack = new Button("Back");
+
+        buttons.add(btnLogin);
+        buttons.add(btnBack);
+
+        Panel center = new Panel(new BorderLayout());
+
+        center.add(form, BorderLayout.CENTER);
+
+        center.add(buttons, BorderLayout.SOUTH);
+
+        Panel outer = new Panel(new GridBagLayout());
+
+        outer.add(center);
+
+        add(outer, BorderLayout.CENTER);
+
+        btnLogin.addActionListener(this);
+        btnBack.addActionListener(this);
+
+        addWindowListener(new WindowAdapter() {
+
+            public void windowClosing(WindowEvent e) {
+
+                System.exit(0);
 
             }
 
         });
 
-        setExtendedState(Frame.MAXIMIZED_BOTH);
         setVisible(true);
 
     }
+        @Override
+    public void actionPerformed(ActionEvent e) {
 
-    public void actionPerformed(ActionEvent e){
+        if (e.getSource() == btnLogin) {
 
-        String uname=t1.getText();
-        String pass=t2.getText();
+            String username = txtUsername.getText().trim();
+            String password = txtPassword.getText().trim();
 
-        if(uname.equals("admin") && pass.equals("admin")){
+            // Empty validation
+            if (username.equals("") || password.equals("")) {
 
-            new AdminPage();
+                new MessageDialog(
+                        this,
+                        "Error",
+                        "Please enter Username and Password."
+                ).setVisible(true);
 
-            dispose();
+                return;
+            }
 
-            return;
+            if (username.equals("admin") && password.equals("admin")) {
 
-        }
-
-        for(int i=0;i<RegistrationPage.count;i++){
-
-            if(RegistrationPage.users[i].username.equals(uname)
-                    &&
-               RegistrationPage.users[i].password.equals(pass)){
-
-                new ProfilePage(RegistrationPage.users[i]);
+                new AdminDashboard();
 
                 dispose();
+
+                return;
+            }
+
+            User user = fileManager.findUser(username);
+
+            if (user == null) {
+
+                Dialog d = new Dialog(this, "User Not Registered", true);
+
+                d.setLayout(new FlowLayout());
+
+                Label msg = new Label(
+                        "User not registered. Do you want to register?"
+                );
+
+                Button yes = new Button("Yes");
+                Button no = new Button("No");
+
+                d.add(msg);
+                d.add(yes);
+                d.add(no);
+
+                yes.addActionListener(new ActionListener() {
+
+                    public void actionPerformed(ActionEvent e) {
+
+                        d.dispose();
+
+                        new RegisterPage();
+
+                        dispose();
+
+                    }
+
+                });
+
+                no.addActionListener(new ActionListener() {
+
+                    public void actionPerformed(ActionEvent e) {
+
+                        d.dispose();
+
+                    }
+
+                });
+
+                d.setSize(420,150);
+
+                d.setVisible(true);
 
                 return;
 
             }
 
+            if (!user.getPassword().equals(password)) {
+
+                Dialog d = new Dialog(this, "Login Failed", true);
+
+                d.setLayout(new FlowLayout());
+
+                Label msg = new Label(
+                        "Invalid Username or Password"
+                );
+
+                Button retry = new Button("Try Again");
+
+                d.add(msg);
+                d.add(retry);
+
+                retry.addActionListener(new ActionListener() {
+
+                    public void actionPerformed(ActionEvent e) {
+
+                        d.dispose();
+
+                        txtPassword.setText("");
+
+                        txtPassword.requestFocus();
+
+                    }
+
+                });
+
+                d.setSize(300,150);
+
+                d.setVisible(true);
+
+                return;
+
+            }
+
+
+            new UserDashboard(user);
+
+            dispose();
+
         }
 
-        Dialog d=new Dialog(this,"Login Failed",true);
+        if (e.getSource() == btnBack) {
 
-        d.setLayout(new FlowLayout());
+            new HomePage();
 
-        d.add(new Label("Invalid Username or Password"));
+            dispose();
 
-        Button ok=new Button("OK");
-
-        ok.addActionListener(a->d.dispose());
-
-        d.add(ok);
-
-        setExtendedState(Frame.MAXIMIZED_BOTH);
-        setVisible(true);
+        }
 
     }
 

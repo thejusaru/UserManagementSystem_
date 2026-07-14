@@ -75,11 +75,7 @@ class RegistrationPage extends Frame implements ActionListener {
 
         if(e.getSource()==register){
 
-            users[count]=new User(
-                    t1.getText(),
-                    t2.getText(),
-                    t3.getText(),
-                    t4.getText());
+            users[count]=new User(t1.getText(),t2.getText(),t3.getText(),t4.getText());
 
             count++;
 

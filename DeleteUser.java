@@ -50,7 +50,7 @@ public class DeleteUser extends Frame implements ActionListener {
                 System.exit(0);
             }
         });
-
+        setBackground(Color.LIGHT_GRAY);
         setVisible(true);
     }
 

@@ -65,6 +65,7 @@ public class SearchUser extends Frame implements ActionListener {
                 dispose();
             }
         });
+        setBackground(Color.LIGHT_GRAY);
         setVisible(true);
     }
 

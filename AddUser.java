@@ -95,7 +95,7 @@ public class AddUser extends Frame implements ActionListener {
             }
 
         });
-
+        setBackground(Color.LIGHT_GRAY);
         setVisible(true);
 
     }

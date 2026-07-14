@@ -88,11 +88,10 @@ public class LoginPage extends Frame implements ActionListener {
             }
 
         });
-
+        setBackground(Color.LIGHT_GRAY);
         setVisible(true);
 
     }
-        @Override
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == btnLogin) {
@@ -165,7 +164,7 @@ public class LoginPage extends Frame implements ActionListener {
                 });
 
                 d.setSize(420,150);
-
+                
                 d.setVisible(true);
 
                 return;

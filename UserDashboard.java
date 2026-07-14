@@ -63,7 +63,9 @@ public class UserDashboard extends Frame implements ActionListener {
             }
         });
 
-        setVisible(true);
+        
+        setBackground(Color.LIGHT_GRAY);setVisible(true);
+
 
     }
 

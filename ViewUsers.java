@@ -43,6 +43,7 @@ public class ViewUsers extends Frame implements ActionListener {
                 dispose();
             }
         });
+        setBackground(Color.LIGHT_GRAY);
         setVisible(true);
     }
     void showUsers(){

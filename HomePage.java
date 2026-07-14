@@ -52,6 +52,7 @@ public class HomePage extends Frame implements ActionListener {
 
         });
 
+        setBackground(Color.LIGHT_GRAY);
         setVisible(true);
     }
 

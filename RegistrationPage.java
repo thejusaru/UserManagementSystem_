@@ -67,6 +67,7 @@ class RegistrationPage extends Frame implements ActionListener {
             }
         });
 
+        setBackground(Color.LIGHT_GRAY);
         setExtendedState(Frame.MAXIMIZED_BOTH);
         setVisible(true);
     }

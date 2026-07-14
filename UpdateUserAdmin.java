@@ -103,6 +103,7 @@ public class UpdateUserAdmin extends Frame implements ActionListener {
                 dispose();
             }
         });
+        setBackground(Color.LIGHT_GRAY);
         setVisible(true);
     }
     public void actionPerformed(ActionEvent e){

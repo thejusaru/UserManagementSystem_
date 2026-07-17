@@ -3,28 +3,33 @@ import java.util.ArrayList;
 
 public class FileManager {
 
-    private final String FILE_NAME = "users.txt";
+    private static final String FILE_NAME = "users.txt";
 
     public boolean saveUser(User user) {
 
-        try {
-            if (findUser(user.getUsername()) != null) {
-                return false;
-            }
+        if (findUser(user.getUsername()) != null)
+            return false;
 
-            FileWriter fw = new FileWriter(FILE_NAME, true);
-            BufferedWriter bw = new BufferedWriter(fw);
+        if (findUserId(user.getUserId()) != null)
+            return false;
+
+        if (findGmail(user.getGmail()) != null)
+            return false;
+
+        if (findPhone(user.getPhone()) != null)
+            return false;
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME, true))) {
 
             bw.write(user.toString());
             bw.newLine();
 
-            bw.close();
-            fw.close();
-
             return true;
 
-        } catch (Exception e) {
+        } catch (IOException e) {
+
             e.printStackTrace();
+
         }
 
         return false;
@@ -39,8 +44,10 @@ public class FileManager {
             File file = new File(FILE_NAME);
 
             if (!file.exists()) {
+
                 file.createNewFile();
                 return users;
+
             }
 
             BufferedReader br = new BufferedReader(new FileReader(file));
@@ -49,21 +56,20 @@ public class FileManager {
 
             while ((line = br.readLine()) != null) {
 
-                if (line.trim().length() == 0)
+                if (line.trim().equals(""))
                     continue;
 
-                String data[] = line.split(",");
+                String[] data = line.split(",");
 
                 if (data.length == 5) {
 
-                    User user = new User(
+                    users.add(new User(
                             data[0],
                             data[1],
                             data[2],
                             data[3],
-                            data[4]);
-
-                    users.add(user);
+                            data[4]
+                    ));
 
                 }
 
@@ -72,7 +78,9 @@ public class FileManager {
             br.close();
 
         } catch (Exception e) {
+
             e.printStackTrace();
+
         }
 
         return users;
@@ -83,10 +91,66 @@ public class FileManager {
 
         ArrayList<User> users = getAllUsers();
 
-        for (User u : users) {
+        for (User user : users) {
 
-            if (u.getUsername().equalsIgnoreCase(username)) {
-                return u;
+            if (user.getUsername().equalsIgnoreCase(username)) {
+
+                return user;
+
+            }
+
+        }
+
+        return null;
+
+    }
+
+    public User findUserId(String userId) {
+
+        ArrayList<User> users = getAllUsers();
+
+        for (User user : users) {
+
+            if (user.getUserId().equalsIgnoreCase(userId)) {
+
+                return user;
+
+            }
+
+        }
+
+        return null;
+
+    }
+
+    public User findGmail(String gmail) {
+
+        ArrayList<User> users = getAllUsers();
+
+        for (User user : users) {
+
+            if (user.getGmail().equalsIgnoreCase(gmail)) {
+
+                return user;
+
+            }
+
+        }
+
+        return null;
+
+    }
+
+    public User findPhone(String phone) {
+
+        ArrayList<User> users = getAllUsers();
+
+        for (User user : users) {
+
+            if (user.getPhone().equals(phone)) {
+
+                return user;
+
             }
 
         }
@@ -103,15 +167,20 @@ public class FileManager {
 
             BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME));
 
-            for (User u : users) {
+            for (User user : users) {
 
-                if (u.getUsername().equalsIgnoreCase(updatedUser.getUsername())) {
+                if (user.getUsername().equalsIgnoreCase(updatedUser.getUsername())) {
+
                     bw.write(updatedUser.toString());
+
                 } else {
-                    bw.write(u.toString());
+
+                    bw.write(user.toString());
+
                 }
 
                 bw.newLine();
+
             }
 
             bw.close();
@@ -119,28 +188,35 @@ public class FileManager {
             return true;
 
         } catch (Exception e) {
+
             e.printStackTrace();
+
         }
 
         return false;
 
     }
-
 
     public boolean deleteUser(String username) {
 
         ArrayList<User> users = getAllUsers();
 
+        boolean deleted = false;
+
         try {
 
             BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME));
 
-            for (User u : users) {
+            for (User user : users) {
 
-                if (!u.getUsername().equalsIgnoreCase(username)) {
+                if (!user.getUsername().equalsIgnoreCase(username)) {
 
-                    bw.write(u.toString());
+                    bw.write(user.toString());
                     bw.newLine();
+
+                } else {
+
+                    deleted = true;
 
                 }
 
@@ -148,7 +224,7 @@ public class FileManager {
 
             bw.close();
 
-            return true;
+            return deleted;
 
         } catch (Exception e) {
 
@@ -159,7 +235,6 @@ public class FileManager {
         return false;
 
     }
-
 
     public boolean changePassword(String username, String newPassword) {
 
@@ -174,19 +249,22 @@ public class FileManager {
 
     }
 
-
     public ArrayList<User> searchUser(String keyword) {
 
         ArrayList<User> result = new ArrayList<>();
 
+        keyword = keyword.toLowerCase();
+
         ArrayList<User> users = getAllUsers();
 
-        for (User u : users) {
+        for (User user : users) {
 
-            if (u.getUsername().toLowerCase().contains(keyword.toLowerCase())
-                    || u.getUserId().toLowerCase().contains(keyword.toLowerCase())) {
+            if (user.getUsername().toLowerCase().contains(keyword)
+                    || user.getUserId().toLowerCase().contains(keyword)
+                    || user.getGmail().toLowerCase().contains(keyword)
+                    || user.getPhone().contains(keyword)) {
 
-                result.add(u);
+                result.add(user);
 
             }
 
@@ -195,4 +273,35 @@ public class FileManager {
         return result;
 
     }
+
+    public int getTotalUsers() {
+
+        return getAllUsers().size();
+
+    }
+
+    public boolean usernameExists(String username) {
+
+        return findUser(username) != null;
+
+    }
+
+    public boolean userIdExists(String userId) {
+
+        return findUserId(userId) != null;
+
+    }
+
+    public boolean gmailExists(String gmail) {
+
+        return findGmail(gmail) != null;
+
+    }
+
+    public boolean phoneExists(String phone) {
+
+        return findPhone(phone) != null;
+
+    }
+
 }

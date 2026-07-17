@@ -12,6 +12,8 @@ class AdminPage extends Frame implements ActionListener {
     AdminPage() {
 
         setTitle("Admin Page");
+        setExtendedState(Frame.MAXIMIZED_BOTH);
+        setLayout(new BorderLayout());
 
         mb = new MenuBar();
 
@@ -27,9 +29,24 @@ class AdminPage extends Frame implements ActionListener {
 
         setMenuBar(mb);
 
+        Panel top = new Panel();
+        top.setBackground(new Color(25, 118, 210));
+
+        Label heading = new Label("REGISTERED USERS", Label.CENTER);
+        heading.setFont(new Font("Arial", Font.BOLD, 32));
+        heading.setForeground(Color.WHITE);
+
+        top.add(heading);
+
+        add(top, BorderLayout.NORTH);
+
         ta = new TextArea();
         ta.setEditable(false);
-        add(ta);
+        ta.setFont(new Font("Monospaced", Font.PLAIN, 18));
+        ta.setBackground(Color.WHITE);
+        ta.setForeground(Color.BLACK);
+
+        add(ta, BorderLayout.CENTER);
 
         displayUsers();
 
@@ -37,12 +54,15 @@ class AdminPage extends Frame implements ActionListener {
         logout.addActionListener(this);
 
         addWindowListener(new WindowAdapter() {
+
             public void windowClosing(WindowEvent e) {
+
                 dispose();
+
             }
+
         });
 
-        setExtendedState(Frame.MAXIMIZED_BOTH);
         setVisible(true);
     }
 
@@ -50,33 +70,52 @@ class AdminPage extends Frame implements ActionListener {
 
         ta.setText("");
 
-        ta.append("========== REGISTERED USERS ==========\n\n");
+        ta.append("=====================================================\n");
+        ta.append("              REGISTERED USERS\n");
+        ta.append("=====================================================\n\n");
 
-        if(RegistrationPage.count == 0) {
+        if (RegistrationPage.count == 0) {
+
             ta.append("No users registered.");
+
             return;
+
         }
 
-        for(int i=0; i<RegistrationPage.count; i++) {
+        for (int i = 0; i < RegistrationPage.count; i++) {
 
-            ta.append("User " + (i+1) + "\n");
-            ta.append("Name      : " + RegistrationPage.users[i].name + "\n");
-            ta.append("Username  : " + RegistrationPage.users[i].username + "\n");
-            ta.append("Password  : " + RegistrationPage.users[i].password + "\n");
-            ta.append("Email     : " + RegistrationPage.users[i].email + "\n");
-            ta.append("--------------------------------------\n");
+            User user = RegistrationPage.users[i];
+
+            ta.append("User : " + (i + 1) + "\n\n");
+
+            ta.append("Username  : " + user.getUsername() + "\n");
+            ta.append("User ID   : " + user.getUserId() + "\n");
+            ta.append("Password  : " + user.getPassword() + "\n");
+            ta.append("Gmail     : " + user.getGmail() + "\n");
+            ta.append("Phone     : " + user.getPhone() + "\n");
+
+            ta.append("\n-----------------------------------------------------\n\n");
+
         }
+
     }
 
     public void actionPerformed(ActionEvent e) {
 
-        if(e.getSource()==refresh) {
+        if (e.getSource() == refresh) {
+
             displayUsers();
+
         }
 
-        if(e.getSource()==logout) {
+        if (e.getSource() == logout) {
+
             new LoginPage();
+
             dispose();
+
         }
+
     }
+
 }

@@ -50,15 +50,36 @@ class ProfilePage extends Frame implements ActionListener {
 
     void displayProfile() {
 
-        ta.setText("");
+    ta.setFont(new Font("Monospaced", Font.PLAIN, 18));
 
-        ta.append("========== USER PROFILE ==========\n\n");
-        ta.append("Name      : " + user.name + "\n");
-        ta.append("Username  : " + user.username + "\n");
-        ta.append("Password  : " + user.password + "\n");
-        ta.append("Email     : " + user.email + "\n");
-    }
+    ta.setText("");
 
+    ta.append("==============================================================\n");
+    ta.append("                     USER PROFILE\n");
+    ta.append("==============================================================\n\n");
+
+    ta.append("+----------------------+--------------------------------------+\n");
+    ta.append("| Field                | Value                                |\n");
+    ta.append("+----------------------+--------------------------------------+\n");
+
+    ta.append(String.format("| %-20s | %-36s |\n",
+            "Username", user.getUsername()));
+
+    ta.append(String.format("| %-20s | %-36s |\n",
+            "User ID", user.getUserId()));
+
+    ta.append(String.format("| %-20s | %-36s |\n",
+            "Password", user.getPassword()));
+
+    ta.append(String.format("| %-20s | %-36s |\n",
+            "Gmail", user.getGmail()));
+
+    ta.append(String.format("| %-20s | %-36s |\n",
+            "Phone", user.getPhone()));
+
+    ta.append("+----------------------+--------------------------------------+\n");
+
+}
     public void actionPerformed(ActionEvent e) {
 
         if(e.getSource()==refresh) {

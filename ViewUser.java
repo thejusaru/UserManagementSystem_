@@ -7,60 +7,191 @@ public class ViewUser extends Frame implements ActionListener {
 
     Label title;
 
-    TextArea ta;
-
     Button btnBack;
+
 
     ViewUser(User user) {
 
         this.user = user;
 
-        setTitle("View User Details");
+        setTitle("User Management System - View Profile");
+
         setExtendedState(Frame.MAXIMIZED_BOTH);
-        setLayout(new BorderLayout());
+
+        setLayout(new BorderLayout(20, 20));
+
+        setBackground(new Color(235, 245, 255));
+
 
         Panel top = new Panel();
-        title = new Label("VIEW USER DETAILS", Label.CENTER);
-        title.setFont(new Font("Arial", Font.BOLD, 28));
+
+        top.setBackground(new Color(255, 193, 7));
+
+        title = new Label("MY PROFILE", Label.CENTER);
+
+        title.setFont(new Font("Arial", Font.BOLD, 34));
+
+        title.setForeground(Color.BLACK);
+
         top.add(title);
 
         add(top, BorderLayout.NORTH);
-        ta = new TextArea();
-        ta.setEditable(false);
-        ta.setFont(new Font("Monospaced", Font.PLAIN, 16));
-        ta.append("\n");
-        ta.append("========================================\n");
-        ta.append("            USER DETAILS\n");
-        ta.append("========================================\n\n");
 
-        ta.append("Username     : " + user.getUsername() + "\n\n");
-        ta.append("User ID      : " + user.getUserId() + "\n\n");
-        ta.append("Password     : " + user.getPassword() + "\n\n");
-        ta.append("Gmail        : " + user.getGmail() + "\n\n");
-        ta.append("Phone Number : " + user.getPhone() + "\n");
 
-        add(ta, BorderLayout.CENTER);
+        Panel table = new Panel(new GridLayout(5, 2, 20, 20));
 
-        Panel bottom = new Panel();
-        btnBack = new Button("Back");
-        bottom.add(btnBack);
+        table.setBackground(Color.WHITE);
 
-        add(bottom, BorderLayout.SOUTH);
+
+        Font labelFont = new Font("Arial", Font.BOLD, 20);
+
+        Font valueFont = new Font("Arial", Font.PLAIN, 20);
+
+
+        Label l1 = new Label("Username");
+
+        Label l2 = new Label("User ID");
+
+        Label l3 = new Label("Password");
+
+        Label l4 = new Label("Gmail");
+
+        Label l5 = new Label("Phone Number");
+
+
+        l1.setFont(labelFont);
+        l2.setFont(labelFont);
+        l3.setFont(labelFont);
+        l4.setFont(labelFont);
+        l5.setFont(labelFont);
+
+
+        Label v1 = new Label(user.getUsername());
+
+        Label v2 = new Label(user.getUserId());
+
+        Label v3 = new Label(user.getPassword());
+
+        Label v4 = new Label(user.getGmail());
+
+        Label v5 = new Label(user.getPhone());
+
+
+        v1.setFont(valueFont);
+
+        v2.setFont(valueFont);
+
+        v3.setFont(valueFont);
+
+        v4.setFont(valueFont);
+
+        v5.setFont(valueFont);
+
+
+        table.add(l1);
+
+        table.add(v1);
+
+
+        table.add(l2);
+
+        table.add(v2);
+
+
+        table.add(l3);
+
+        table.add(v3);
+
+
+        table.add(l4);
+
+        table.add(v4);
+
+
+        table.add(l5);
+
+        table.add(v5);
+
+
+
+        Panel buttonPanel = new Panel();
+
+        buttonPanel.setBackground(Color.WHITE);
+
+
+        btnBack = new Button("BACK");
+
+        btnBack.setFont(new Font("Arial", Font.BOLD, 18));
+
+        btnBack.setBackground(new Color(33, 150, 243));
+
+        btnBack.setForeground(Color.WHITE);
+
+
+        buttonPanel.add(btnBack);
+
+
+
+        Panel card = new Panel(new BorderLayout(20, 20));
+
+        card.setBackground(Color.WHITE);
+
+
+        Label heading = new Label("User Information", Label.CENTER);
+
+        heading.setFont(new Font("Arial", Font.BOLD, 28));
+
+        heading.setForeground(new Color(25, 25, 112));
+
+
+        card.add(heading, BorderLayout.NORTH);
+
+        card.add(table, BorderLayout.CENTER);
+
+        card.add(buttonPanel, BorderLayout.SOUTH);
+
+
+
+        Panel center = new Panel(new GridBagLayout());
+
+        center.setBackground(new Color(235, 245, 255));
+
+        center.add(card);
+
+
+        add(center, BorderLayout.CENTER);
+
+
+
         btnBack.addActionListener(this);
 
+
         addWindowListener(new WindowAdapter() {
+
             public void windowClosing(WindowEvent e) {
+
                 System.exit(0);
+
             }
+
         });
-        setBackground(Color.LIGHT_GRAY);
+
+
         setVisible(true);
+
     }
 
+
     public void actionPerformed(ActionEvent e) {
+
         if (e.getSource() == btnBack) {
+
             new UserDashboard(user);
+
             dispose();
+
         }
+
     }
+
 }

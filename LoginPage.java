@@ -16,82 +16,130 @@ public class LoginPage extends Frame implements ActionListener {
 
     LoginPage() {
 
-        fileManager = new FileManager();
+    fileManager = new FileManager();
 
-        setTitle("User Login");
+    setTitle("User Management System - Login");
 
-        setExtendedState(Frame.MAXIMIZED_BOTH);
+    setExtendedState(Frame.MAXIMIZED_BOTH);
 
-        setLayout(new BorderLayout());
+    setLayout(new BorderLayout(20,20));
 
+    setBackground(new Color(235,245,255));
 
-        Panel top = new Panel();
+    //================ HEADER =================//
 
-        title = new Label("USER LOGIN", Label.CENTER);
+    Panel top = new Panel();
 
-        title.setFont(new Font("Arial", Font.BOLD, 28));
+    top.setBackground(new Color(25,118,210));
 
-        top.add(title);
+    title = new Label("USER LOGIN", Label.CENTER);
 
-        add(top, BorderLayout.NORTH);
+    title.setFont(new Font("Arial", Font.BOLD, 36));
 
+    title.setForeground(Color.WHITE);
 
-        Panel form = new Panel();
+    top.add(title);
 
-        form.setLayout(new GridLayout(3, 2, 15, 15));
+    add(top, BorderLayout.NORTH);
 
-        l1 = new Label("Username");
-        l2 = new Label("Password");
+    //================ LOGIN FORM =================//
 
-        txtUsername = new TextField();
+    Panel form = new Panel(new GridLayout(2,2,20,20));
 
-        txtPassword = new TextField();
-        txtPassword.setEchoChar('*');
+    form.setBackground(Color.WHITE);
 
-        form.add(l1);
-        form.add(txtUsername);
+    Font labelFont = new Font("Arial", Font.BOLD, 20);
 
-        form.add(l2);
-        form.add(txtPassword);
+    l1 = new Label("Username");
+    l2 = new Label("Password");
 
+    l1.setFont(labelFont);
+    l2.setFont(labelFont);
 
-        Panel buttons = new Panel();
+    Font textFont = new Font("Arial", Font.PLAIN, 20);
 
-        btnLogin = new Button("Login");
+    txtUsername = new TextField(25);
+    txtPassword = new TextField(25);
 
-        btnBack = new Button("Back");
+    txtUsername.setFont(textFont);
+    txtPassword.setFont(textFont);
 
-        buttons.add(btnLogin);
-        buttons.add(btnBack);
+    txtPassword.setEchoChar('*');
 
-        Panel center = new Panel(new BorderLayout());
+    form.add(l1);
+    form.add(txtUsername);
 
-        center.add(form, BorderLayout.CENTER);
+    form.add(l2);
+    form.add(txtPassword);
 
-        center.add(buttons, BorderLayout.SOUTH);
+    //================ BUTTONS =================//
 
-        Panel outer = new Panel(new GridBagLayout());
+    Panel buttons = new Panel();
 
-        outer.add(center);
+    buttons.setBackground(Color.WHITE);
 
-        add(outer, BorderLayout.CENTER);
+    btnLogin = new Button("LOGIN");
+    btnBack = new Button("BACK");
 
-        btnLogin.addActionListener(this);
-        btnBack.addActionListener(this);
+    Font buttonFont = new Font("Arial", Font.BOLD, 18);
 
-        addWindowListener(new WindowAdapter() {
+    btnLogin.setFont(buttonFont);
+    btnBack.setFont(buttonFont);
 
-            public void windowClosing(WindowEvent e) {
+    btnLogin.setBackground(new Color(76,175,80));
+    btnLogin.setForeground(Color.WHITE);
 
-                System.exit(0);
+    btnBack.setBackground(new Color(33,150,243));
+    btnBack.setForeground(Color.WHITE);
 
-            }
+    buttons.add(btnLogin);
+    buttons.add(new Label("      "));
+    buttons.add(btnBack);
 
-        });
-        setBackground(Color.LIGHT_GRAY);
-        setVisible(true);
+    //================ CARD =================//
 
-    }
+    Panel card = new Panel(new BorderLayout(20,20));
+
+    card.setBackground(Color.WHITE);
+
+    Label welcome = new Label("Welcome Back!", Label.CENTER);
+
+    welcome.setFont(new Font("Arial", Font.BOLD, 24));
+
+    welcome.setForeground(new Color(25,25,112));
+
+    card.add(welcome, BorderLayout.NORTH);
+    card.add(form, BorderLayout.CENTER);
+    card.add(buttons, BorderLayout.SOUTH);
+
+    //================ CENTER =================//
+
+    Panel center = new Panel(new GridBagLayout());
+
+    center.setBackground(new Color(235,245,255));
+
+    center.add(card);
+
+    add(center, BorderLayout.CENTER);
+
+    //================ EVENTS =================//
+
+    btnLogin.addActionListener(this);
+    btnBack.addActionListener(this);
+
+    addWindowListener(new WindowAdapter() {
+
+        public void windowClosing(WindowEvent e) {
+
+            System.exit(0);
+
+        }
+
+    });
+
+    setVisible(true);
+
+}
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == btnLogin) {

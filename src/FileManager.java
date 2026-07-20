@@ -362,11 +362,8 @@ public class FileManager {
         return findUser(username) != null;
 
     }
-
     public boolean userIdExists(String userId) {
-
         return findUserId(userId) != null;
-
     }
 
     public boolean gmailExists(String gmail) {

@@ -6,7 +6,11 @@ public class ChangePassword extends Frame implements ActionListener {
     User user;
 
     Label title;
-    Label l1, l2, l3;
+    Label heading;
+
+    Label l1;
+    Label l2;
+    Label l3;
 
     TextField txtOldPassword;
     TextField txtNewPassword;
@@ -28,45 +32,66 @@ public class ChangePassword extends Frame implements ActionListener {
 
         setExtendedState(Frame.MAXIMIZED_BOTH);
 
-        setLayout(new BorderLayout(20, 20));
+        setLayout(new BorderLayout());
 
-        setBackground(new Color(235, 245, 255));
+        setBackground(new Color(240,245,252));
 
-        Panel top = new Panel();
-        top.setBackground(new Color(25, 118, 210));
+        //================ HEADER =================//
+
+        Panel header = new Panel(new BorderLayout());
+
+        header.setBackground(new Color(25,118,210));
+
+        header.setPreferredSize(new Dimension(100,90));
 
         title = new Label("CHANGE PASSWORD", Label.CENTER);
-        title.setFont(new Font("Arial", Font.BOLD, 34));
+
+        title.setFont(new Font("Segoe UI", Font.BOLD,34));
+
         title.setForeground(Color.WHITE);
 
-        top.add(title);
+        header.add(title, BorderLayout.CENTER);
 
-        add(top, BorderLayout.NORTH);
+        add(header, BorderLayout.NORTH);
 
-        Panel form = new Panel(new GridLayout(3, 2, 20, 20));
+        //================ FORM =================//
+
+        Panel form = new Panel(new GridLayout(3,2,30,30));
+
         form.setBackground(Color.WHITE);
 
-        Font labelFont = new Font("Arial", Font.BOLD, 20);
-        Font textFont = new Font("Arial", Font.PLAIN, 20);
+        Font labelFont = new Font("Segoe UI", Font.BOLD,20);
+
+        Font textFont = new Font("Segoe UI", Font.PLAIN,20);
 
         l1 = new Label("Current Password");
+
         l2 = new Label("New Password");
+
         l3 = new Label("Confirm Password");
 
         l1.setFont(labelFont);
+
         l2.setFont(labelFont);
+
         l3.setFont(labelFont);
 
-        txtOldPassword = new TextField(25);
-        txtNewPassword = new TextField(25);
-        txtConfirmPassword = new TextField(25);
+        txtOldPassword = new TextField(28);
+
+        txtNewPassword = new TextField(28);
+
+        txtConfirmPassword = new TextField(28);
 
         txtOldPassword.setFont(textFont);
+
         txtNewPassword.setFont(textFont);
+
         txtConfirmPassword.setFont(textFont);
 
         txtOldPassword.setEchoChar('*');
+
         txtNewPassword.setEchoChar('*');
+
         txtConfirmPassword.setEchoChar('*');
 
         form.add(l1);
@@ -78,51 +103,86 @@ public class ChangePassword extends Frame implements ActionListener {
         form.add(l3);
         form.add(txtConfirmPassword);
 
-        Panel buttons = new Panel();
+        //================ BUTTONS =================//
+
+        Panel buttons = new Panel(new FlowLayout(FlowLayout.CENTER,25,10));
+
         buttons.setBackground(Color.WHITE);
 
         btnSave = new Button("SAVE");
+
         btnClear = new Button("CLEAR");
+
         btnBack = new Button("BACK");
 
-        Font buttonFont = new Font("Arial", Font.BOLD, 18);
+        Font buttonFont = new Font("Segoe UI", Font.BOLD,18);
 
         btnSave.setFont(buttonFont);
+
         btnClear.setFont(buttonFont);
+
         btnBack.setFont(buttonFont);
 
-        btnSave.setBackground(new Color(76, 175, 80));
+        btnSave.setPreferredSize(new Dimension(140,42));
+
+        btnClear.setPreferredSize(new Dimension(140,42));
+
+        btnBack.setPreferredSize(new Dimension(140,42));
+
+        btnSave.setBackground(new Color(46,204,113));
+
         btnSave.setForeground(Color.WHITE);
 
-        btnClear.setBackground(new Color(255, 193, 7));
+        btnClear.setBackground(new Color(255,193,7));
+
         btnClear.setForeground(Color.BLACK);
 
-        btnBack.setBackground(new Color(244, 67, 54));
+        btnBack.setBackground(new Color(231,76,60));
+
         btnBack.setForeground(Color.WHITE);
 
         buttons.add(btnSave);
+
         buttons.add(btnClear);
+
         buttons.add(btnBack);
 
-        Panel card = new Panel(new BorderLayout(20, 20));
+        //================ CARD =================//
+
+        Panel card = new Panel(new BorderLayout(30,30));
+
         card.setBackground(Color.WHITE);
 
-        Label heading = new Label("Update Your Password", Label.CENTER);
-        heading.setFont(new Font("Arial", Font.BOLD, 24));
-        heading.setForeground(new Color(25, 25, 112));
+        card.setPreferredSize(new Dimension(720,470));
+
+        heading = new Label("Update Your Account Password", Label.CENTER);
+
+        heading.setFont(new Font("Segoe UI", Font.BOLD,28));
+
+        heading.setForeground(new Color(25,25,112));
 
         card.add(heading, BorderLayout.NORTH);
+
         card.add(form, BorderLayout.CENTER);
+
         card.add(buttons, BorderLayout.SOUTH);
 
-        Panel center = new Panel(new GridBagLayout());
-        center.setBackground(new Color(235, 245, 255));
-        center.add(card);
+        //================ WRAPPER =================//
 
-        add(center, BorderLayout.CENTER);
+        Panel wrapper = new Panel(new GridBagLayout());
+
+        wrapper.setBackground(new Color(240,245,252));
+
+        wrapper.add(card);
+
+        add(wrapper, BorderLayout.CENTER);
+
+        //================ EVENTS =================//
 
         btnSave.addActionListener(this);
+
         btnClear.addActionListener(this);
+
         btnBack.addActionListener(this);
 
         addWindowListener(new WindowAdapter() {
@@ -135,67 +195,130 @@ public class ChangePassword extends Frame implements ActionListener {
 
         });
 
+        txtOldPassword.requestFocus();
+
         setVisible(true);
 
     }
-
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getSource() == btnSave) {
+    if (e.getSource() == btnSave) {
 
-            String oldPass = txtOldPassword.getText().trim();
-            String newPass = txtNewPassword.getText().trim();
-            String confirmPass = txtConfirmPassword.getText().trim();
+        String oldPass = txtOldPassword.getText().trim();
 
-            if (oldPass.equals("") || newPass.equals("") || confirmPass.equals("")) {
+        String newPass = txtNewPassword.getText().trim();
 
-                new MessageDialog(this, "Error", "Please fill all the fields.").setVisible(true);
-                return;
+        String confirmPass = txtConfirmPassword.getText().trim();
 
-            }
+        if (oldPass.equals("") ||
+            newPass.equals("") ||
+            confirmPass.equals("")) {
 
-            if (!oldPass.equals(user.getPassword())) {
+            new MessageDialog(
+                    this,
+                    "Error",
+                    "Please fill all the fields."
+            ).setVisible(true);
 
-                new MessageDialog(this, "Error", "Current Password is Incorrect.").setVisible(true);
-                return;
+            return;
 
-            }
+        }
 
-            if (!newPass.equals(confirmPass)) {
+        if (!oldPass.equals(user.getPassword())) {
 
-                new MessageDialog(this, "Error", "New Password and Confirm Password do not match.").setVisible(true);
-                return;
+            new MessageDialog(
+                    this,
+                    "Error",
+                    "Current password is incorrect."
+            ).setVisible(true);
 
-            }
+            return;
 
-            user.setPassword(newPass);
+        }
 
-            fileManager.updateUser(user);
+        if (newPass.length() < 6) {
 
-            new MessageDialog(this, "Success", "Password Changed Successfully.").setVisible(true);
+            new MessageDialog(
+                    this,
+                    "Error",
+                    "Password must contain at least 6 characters."
+            ).setVisible(true);
+
+            return;
+
+        }
+
+        if (newPass.equals(oldPass)) {
+
+            new MessageDialog(
+                    this,
+                    "Error",
+                    "New password cannot be the same as the current password."
+            ).setVisible(true);
+
+            return;
+
+        }
+
+        if (!newPass.equals(confirmPass)) {
+
+            new MessageDialog(
+                    this,
+                    "Error",
+                    "New password and Confirm password do not match."
+            ).setVisible(true);
+
+            return;
+
+        }
+
+        user.setPassword(newPass);
+
+        boolean updated = fileManager.updateUser(user);
+
+        if (updated) {
+
+            new MessageDialog(
+                    this,
+                    "Success",
+                    "Password changed successfully."
+            ).setVisible(true);
 
             new UserDashboard(user);
 
             dispose();
 
-        }
+        } else {
 
-        if (e.getSource() == btnClear) {
-
-            txtOldPassword.setText("");
-            txtNewPassword.setText("");
-            txtConfirmPassword.setText("");
-
-        }
-
-        if (e.getSource() == btnBack) {
-
-            new UserDashboard(user);
-
-            dispose();
+            new MessageDialog(
+                    this,
+                    "Error",
+                    "Unable to change password."
+            ).setVisible(true);
 
         }
 
     }
 
+    if (e.getSource() == btnClear) {
+
+        txtOldPassword.setText("");
+
+        txtNewPassword.setText("");
+
+        txtConfirmPassword.setText("");
+
+        txtOldPassword.requestFocus();
+
+    }
+
+    if (e.getSource() == btnBack) {
+
+        new UserDashboard(user);
+
+        dispose();
+
+    }
+
+}
 }

@@ -22,114 +22,137 @@ public class LoginPage extends Frame implements ActionListener {
 
     setExtendedState(Frame.MAXIMIZED_BOTH);
 
-    setLayout(new BorderLayout(20,20));
+    setLayout(new BorderLayout());
 
-    setBackground(new Color(235,245,255));
+    setBackground(new Color(240,245,252));
 
-    //================ HEADER =================//
+    Panel header = new Panel(new BorderLayout());
 
-    Panel top = new Panel();
+    header.setBackground(new Color(25,118,210));
 
-    top.setBackground(new Color(25,118,210));
+    header.setPreferredSize(new Dimension(0,90));
 
-    title = new Label("USER LOGIN", Label.CENTER);
+    title = new Label("USER LOGIN",Label.CENTER);
 
-    title.setFont(new Font("Arial", Font.BOLD, 36));
+    title.setFont(new Font("Arial",Font.BOLD,36));
 
     title.setForeground(Color.WHITE);
 
-    top.add(title);
+    header.add(title,BorderLayout.CENTER);
 
-    add(top, BorderLayout.NORTH);
+    add(header,BorderLayout.NORTH);
 
-    //================ LOGIN FORM =================//
+    Panel center = new Panel(new GridBagLayout());
 
-    Panel form = new Panel(new GridLayout(2,2,20,20));
+    center.setBackground(new Color(240,245,252));
+
+    Panel card = new Panel(new BorderLayout(20,35));
+
+    card.setBackground(Color.WHITE);
+
+    card.setPreferredSize(new Dimension(700,500));
+
+    Panel topSection = new Panel(new GridLayout(2,1,10,15));
+
+    topSection.setBackground(Color.WHITE);
+
+    Label welcome = new Label("Welcome Back",Label.CENTER);
+
+    welcome.setFont(new Font("Arial",Font.BOLD,30));
+
+    welcome.setForeground(new Color(25,25,112));
+
+    Label subtitle = new Label("Sign in to continue to your account",Label.CENTER);
+
+    subtitle.setFont(new Font("Arial",Font.PLAIN,18));
+
+    subtitle.setForeground(Color.GRAY);
+
+    topSection.add(welcome);
+
+    topSection.add(subtitle);
+
+    Panel form = new Panel(new GridLayout(2,2,25,30));
 
     form.setBackground(Color.WHITE);
 
-    Font labelFont = new Font("Arial", Font.BOLD, 20);
+    Font labelFont = new Font("Arial",Font.BOLD,20);
+
+    Font textFont = new Font("Arial",Font.PLAIN,20);
 
     l1 = new Label("Username");
+
     l2 = new Label("Password");
 
     l1.setFont(labelFont);
+
     l2.setFont(labelFont);
 
-    Font textFont = new Font("Arial", Font.PLAIN, 20);
+    txtUsername = new TextField(30);
 
-    txtUsername = new TextField(25);
-    txtPassword = new TextField(25);
+    txtPassword = new TextField(30);
 
     txtUsername.setFont(textFont);
+
     txtPassword.setFont(textFont);
 
     txtPassword.setEchoChar('*');
 
     form.add(l1);
+
     form.add(txtUsername);
 
     form.add(l2);
+
     form.add(txtPassword);
 
-    //================ BUTTONS =================//
+    Panel buttonPanel = new Panel(new FlowLayout(FlowLayout.CENTER,30,15));
 
-    Panel buttons = new Panel();
-
-    buttons.setBackground(Color.WHITE);
+    buttonPanel.setBackground(Color.WHITE);
 
     btnLogin = new Button("LOGIN");
+
     btnBack = new Button("BACK");
 
-    Font buttonFont = new Font("Arial", Font.BOLD, 18);
+    Font buttonFont = new Font("Arial",Font.BOLD,20);
 
     btnLogin.setFont(buttonFont);
+
     btnBack.setFont(buttonFont);
 
-    btnLogin.setBackground(new Color(76,175,80));
+    btnLogin.setPreferredSize(new Dimension(180,55));
+
+    btnBack.setPreferredSize(new Dimension(180,55));
+
+    btnLogin.setBackground(new Color(46,125,50));
+
     btnLogin.setForeground(Color.WHITE);
 
-    btnBack.setBackground(new Color(33,150,243));
+    btnBack.setBackground(new Color(25,118,210));
+
     btnBack.setForeground(Color.WHITE);
 
-    buttons.add(btnLogin);
-    buttons.add(new Label("      "));
-    buttons.add(btnBack);
+    buttonPanel.add(btnLogin);
 
-    //================ CARD =================//
+    buttonPanel.add(btnBack);
 
-    Panel card = new Panel(new BorderLayout(20,20));
+    card.add(topSection,BorderLayout.NORTH);
 
-    card.setBackground(Color.WHITE);
+    card.add(form,BorderLayout.CENTER);
 
-    Label welcome = new Label("Welcome Back!", Label.CENTER);
-
-    welcome.setFont(new Font("Arial", Font.BOLD, 24));
-
-    welcome.setForeground(new Color(25,25,112));
-
-    card.add(welcome, BorderLayout.NORTH);
-    card.add(form, BorderLayout.CENTER);
-    card.add(buttons, BorderLayout.SOUTH);
-
-    //================ CENTER =================//
-
-    Panel center = new Panel(new GridBagLayout());
-
-    center.setBackground(new Color(235,245,255));
+    card.add(buttonPanel,BorderLayout.SOUTH);
 
     center.add(card);
 
-    add(center, BorderLayout.CENTER);
-
-    //================ EVENTS =================//
+    add(center,BorderLayout.CENTER);
 
     btnLogin.addActionListener(this);
+
     btnBack.addActionListener(this);
 
-    addWindowListener(new WindowAdapter() {
+    addWindowListener(new WindowAdapter(){
 
-        public void windowClosing(WindowEvent e) {
+        public void windowClosing(WindowEvent e){
 
             System.exit(0);
 
@@ -139,7 +162,7 @@ public class LoginPage extends Frame implements ActionListener {
 
     setVisible(true);
 
-}
+    }
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == btnLogin) {

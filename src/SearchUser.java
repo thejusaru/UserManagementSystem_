@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class SearchUser extends Frame implements ActionListener {
 
     Label title;
+    Label heading;
     Label searchLabel;
 
     TextField searchText;
@@ -25,41 +26,65 @@ public class SearchUser extends Frame implements ActionListener {
 
         setExtendedState(Frame.MAXIMIZED_BOTH);
 
-        setLayout(new BorderLayout(20, 20));
+        setLayout(new BorderLayout());
 
-        setBackground(new Color(235, 245, 255));
+        setBackground(new Color(240,245,252));
 
-        Panel top = new Panel();
+        Panel header = new Panel(new BorderLayout());
 
-        top.setBackground(new Color(25, 118, 210));
+        header.setBackground(new Color(25,118,210));
 
-        title = new Label("SEARCH USER", Label.CENTER);
+        header.setPreferredSize(new Dimension(0,90));
 
-        title.setFont(new Font("Arial", Font.BOLD, 34));
+        title = new Label("SEARCH USER",Label.CENTER);
+
+        title.setFont(new Font("Arial",Font.BOLD,36));
 
         title.setForeground(Color.WHITE);
 
-        top.add(title);
+        header.add(title,BorderLayout.CENTER);
 
-        add(top, BorderLayout.NORTH);
+        add(header,BorderLayout.NORTH);
 
-        Panel searchPanel = new Panel(new FlowLayout(FlowLayout.CENTER, 15, 15));
+        Panel center = new Panel(new GridBagLayout());
+
+        center.setBackground(new Color(240,245,252));
+
+        Panel card = new Panel(new BorderLayout(25,25));
+
+        card.setBackground(Color.WHITE);
+
+        card.setPreferredSize(new Dimension(900,620));
+
+        heading = new Label("Search Registered Users",Label.CENTER);
+
+        heading.setFont(new Font("Arial",Font.BOLD,28));
+
+        heading.setForeground(new Color(25,25,112));
+
+        card.add(heading,BorderLayout.NORTH);
+
+        Panel searchPanel = new Panel(new FlowLayout(FlowLayout.CENTER,20,15));
 
         searchPanel.setBackground(Color.WHITE);
 
-        searchLabel = new Label("Enter Username / User ID");
+        searchLabel = new Label("Username / User ID");
 
-        searchLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        searchLabel.setFont(new Font("Arial",Font.BOLD,20));
 
-        searchText = new TextField(25);
+        searchText = new TextField(28);
 
-        searchText.setFont(new Font("Arial", Font.PLAIN, 18));
+        searchText.setFont(new Font("Arial",Font.PLAIN,20));
 
         search = new Button("SEARCH");
 
-        search.setFont(new Font("Arial", Font.BOLD, 18));
+        Font buttonFont = new Font("Arial",Font.BOLD,18);
 
-        search.setBackground(new Color(76, 175, 80));
+        search.setFont(buttonFont);
+
+        search.setPreferredSize(new Dimension(160,45));
+
+        search.setBackground(new Color(46,125,50));
 
         search.setForeground(Color.WHITE);
 
@@ -73,51 +98,55 @@ public class SearchUser extends Frame implements ActionListener {
 
         result.setEditable(false);
 
-        result.setFont(new Font("Monospaced", Font.PLAIN, 18));
+        result.setFont(new Font("Monospaced",Font.PLAIN,18));
 
-        result.setBackground(Color.WHITE);
+        result.setBackground(new Color(250,250,250));
 
         result.setForeground(Color.BLACK);
 
-        Panel center = new Panel(new BorderLayout(20, 20));
+        Panel body = new Panel(new BorderLayout(15,15));
 
-        center.setBackground(new Color(235, 245, 255));
+        body.setBackground(Color.WHITE);
 
-        center.add(searchPanel, BorderLayout.NORTH);
+        body.add(searchPanel,BorderLayout.NORTH);
 
-        center.add(result, BorderLayout.CENTER);
+        body.add(result,BorderLayout.CENTER);
 
-        add(center, BorderLayout.CENTER);
+        card.add(body,BorderLayout.CENTER);
 
-        Panel bottom = new Panel();
+        Panel buttonPanel = new Panel(new FlowLayout(FlowLayout.CENTER,25,10));
 
-        bottom.setBackground(new Color(235, 245, 255));
+        buttonPanel.setBackground(Color.WHITE);
 
         clear = new Button("CLEAR");
 
         back = new Button("BACK");
 
-        Font buttonFont = new Font("Arial", Font.BOLD, 18);
-
         clear.setFont(buttonFont);
 
         back.setFont(buttonFont);
 
-        clear.setBackground(new Color(255, 193, 7));
+        clear.setPreferredSize(new Dimension(170,50));
 
-        clear.setForeground(Color.BLACK);
+        back.setPreferredSize(new Dimension(170,50));
 
-        back.setBackground(new Color(33, 150, 243));
+        clear.setBackground(new Color(251,140,0));
+
+        clear.setForeground(Color.WHITE);
+
+        back.setBackground(new Color(25,118,210));
 
         back.setForeground(Color.WHITE);
 
-        bottom.add(clear);
+        buttonPanel.add(clear);
 
-        bottom.add(new Label("     "));
+        buttonPanel.add(back);
 
-        bottom.add(back);
+        card.add(buttonPanel,BorderLayout.SOUTH);
 
-        add(bottom, BorderLayout.SOUTH);
+        center.add(card);
+
+        add(center,BorderLayout.CENTER);
 
         search.addActionListener(this);
 
@@ -125,9 +154,9 @@ public class SearchUser extends Frame implements ActionListener {
 
         back.addActionListener(this);
 
-        addWindowListener(new WindowAdapter() {
+        addWindowListener(new WindowAdapter(){
 
-            public void windowClosing(WindowEvent e) {
+            public void windowClosing(WindowEvent e){
 
                 dispose();
 
@@ -140,8 +169,7 @@ public class SearchUser extends Frame implements ActionListener {
         setVisible(true);
 
     }
-
-    public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == search) {
 
@@ -149,7 +177,13 @@ public class SearchUser extends Frame implements ActionListener {
 
             if (keyword.equals("")) {
 
-                new MessageDialog(this, "Error", "Enter Search Value").setVisible(true);
+                new MessageDialog(
+                        this,
+                        "Error",
+                        "Please enter a Username or User ID."
+                ).setVisible(true);
+
+                searchText.requestFocus();
 
                 return;
 
@@ -161,28 +195,30 @@ public class SearchUser extends Frame implements ActionListener {
 
             if (users.size() == 0) {
 
-                result.append("User Not Found");
+                result.append("\n\n");
+                result.append("                 No Matching User Found.");
+                result.append("\n\n");
+                result.append("Please verify the Username or User ID.");
 
                 return;
 
             }
 
-            result.append("=====================================================================\n");
-            result.append("                           SEARCH RESULT\n");
-            result.append("=====================================================================\n\n");
+            result.append("==============================================================\n");
+            result.append("                    SEARCH RESULTS\n");
+            result.append("==============================================================\n\n");
+
+            int i = 1;
 
             for (User u : users) {
 
-                result.append("+----------------------+--------------------------------------+\n");
-                result.append("| Field                | Value                                |\n");
-                result.append("+----------------------+--------------------------------------+\n");
-
-                result.append(String.format("| %-20s | %-36s |\n", "Username", u.getUsername()));
-                result.append(String.format("| %-20s | %-36s |\n", "User ID", u.getUserId()));
-                result.append(String.format("| %-20s | %-36s |\n", "Gmail", u.getGmail()));
-                result.append(String.format("| %-20s | %-36s |\n", "Phone", u.getPhone()));
-
-                result.append("+----------------------+--------------------------------------+\n\n");
+                result.append("User " + i++ + "\n");
+                result.append("--------------------------------------------------------------\n");
+                result.append("Username      : " + u.getUsername() + "\n");
+                result.append("User ID       : " + u.getUserId() + "\n");
+                result.append("Gmail         : " + u.getGmail() + "\n");
+                result.append("Phone Number  : " + u.getPhone() + "\n");
+                result.append("--------------------------------------------------------------\n\n");
 
             }
 
@@ -193,6 +229,8 @@ public class SearchUser extends Frame implements ActionListener {
             searchText.setText("");
 
             result.setText("");
+
+            searchText.requestFocus();
 
         }
 

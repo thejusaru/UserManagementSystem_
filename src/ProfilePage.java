@@ -1,95 +1,223 @@
 import java.awt.*;
 import java.awt.event.*;
 
-class ProfilePage extends Frame implements ActionListener {
+public class ProfilePage extends Frame implements ActionListener {
 
     User user;
 
-    MenuBar mb;
-    Menu profile;
-    MenuItem refresh, logout;
+    Label title;
 
-    TextArea ta;
+    Label lblUsername;
+    Label lblUserId;
+    Label lblPassword;
+    Label lblGmail;
+    Label lblPhone;
+
+    Label valUsername;
+    Label valUserId;
+    Label valPassword;
+    Label valGmail;
+    Label valPhone;
+
+    Button btnRefresh;
+    Button btnDashboard;
+    Button btnLogout;
 
     ProfilePage(User user) {
 
         this.user = user;
 
-        setTitle("Profile Page");
+        setTitle("User Management System - My Profile");
 
-        mb = new MenuBar();
-        profile = new Menu("Profile");
+        setExtendedState(Frame.MAXIMIZED_BOTH);
 
-        refresh = new MenuItem("Refresh Profile");
-        logout = new MenuItem("Logout");
+        setLayout(new BorderLayout());
 
-        profile.add(refresh);
-        profile.add(logout);
+        setBackground(new Color(240,245,252));
 
-        mb.add(profile);
-        setMenuBar(mb);
+        Panel header = new Panel(new BorderLayout());
 
-        ta = new TextArea();
-        ta.setEditable(false);
-        add(ta);
+        header.setBackground(new Color(25,118,210));
+
+        header.setPreferredSize(new Dimension(0,90));
+
+        title = new Label("MY PROFILE",Label.CENTER);
+
+        title.setFont(new Font("Arial",Font.BOLD,36));
+
+        title.setForeground(Color.WHITE);
+
+        header.add(title,BorderLayout.CENTER);
+
+        add(header,BorderLayout.NORTH);
+
+        Panel center = new Panel(new GridBagLayout());
+
+        center.setBackground(new Color(240,245,252));
+
+        Panel card = new Panel(new BorderLayout(20,30));
+
+        card.setBackground(Color.WHITE);
+
+        card.setPreferredSize(new Dimension(750,500));
+
+        Label heading = new Label("User Information",Label.CENTER);
+
+        heading.setFont(new Font("Arial",Font.BOLD,28));
+
+        heading.setForeground(new Color(25,25,112));
+
+        card.add(heading,BorderLayout.NORTH);
+
+        Panel form = new Panel(new GridLayout(5,2,25,25));
+
+        form.setBackground(Color.WHITE);
+
+        Font labelFont = new Font("Arial",Font.BOLD,20);
+
+        Font valueFont = new Font("Arial",Font.PLAIN,20);
+
+        lblUsername = new Label("Username");
+
+        lblUserId = new Label("User ID");
+
+        lblPassword = new Label("Password");
+
+        lblGmail = new Label("Gmail");
+
+        lblPhone = new Label("Phone Number");
+
+        lblUsername.setFont(labelFont);
+        lblUserId.setFont(labelFont);
+        lblPassword.setFont(labelFont);
+        lblGmail.setFont(labelFont);
+        lblPhone.setFont(labelFont);
+
+        valUsername = new Label();
+        valUserId = new Label();
+        valPassword = new Label();
+        valGmail = new Label();
+        valPhone = new Label();
+
+        valUsername.setFont(valueFont);
+        valUserId.setFont(valueFont);
+        valPassword.setFont(valueFont);
+        valGmail.setFont(valueFont);
+        valPhone.setFont(valueFont);
+
+        form.add(lblUsername);
+        form.add(valUsername);
+
+        form.add(lblUserId);
+        form.add(valUserId);
+
+        form.add(lblPassword);
+        form.add(valPassword);
+
+        form.add(lblGmail);
+        form.add(valGmail);
+
+        form.add(lblPhone);
+        form.add(valPhone);
+
+        Panel buttonPanel = new Panel(new FlowLayout(FlowLayout.CENTER,25,15));
+
+        buttonPanel.setBackground(Color.WHITE);
+
+        btnRefresh = new Button("REFRESH");
+
+        btnDashboard = new Button("DASHBOARD");
+
+        btnLogout = new Button("LOGOUT");
+
+        Font buttonFont = new Font("Arial",Font.BOLD,18);
+
+        btnRefresh.setFont(buttonFont);
+        btnDashboard.setFont(buttonFont);
+        btnLogout.setFont(buttonFont);
+
+        btnRefresh.setPreferredSize(new Dimension(170,50));
+        btnDashboard.setPreferredSize(new Dimension(170,50));
+        btnLogout.setPreferredSize(new Dimension(170,50));
+
+        btnRefresh.setBackground(new Color(255,193,7));
+        btnRefresh.setForeground(Color.BLACK);
+
+        btnDashboard.setBackground(new Color(25,118,210));
+        btnDashboard.setForeground(Color.WHITE);
+
+        btnLogout.setBackground(new Color(220,53,69));
+        btnLogout.setForeground(Color.WHITE);
+
+        buttonPanel.add(btnRefresh);
+        buttonPanel.add(btnDashboard);
+        buttonPanel.add(btnLogout);
+
+        card.add(form,BorderLayout.CENTER);
+        card.add(buttonPanel,BorderLayout.SOUTH);
+
+        center.add(card);
+
+        add(center,BorderLayout.CENTER);
 
         displayProfile();
 
-        refresh.addActionListener(this);
-        logout.addActionListener(this);
+        btnRefresh.addActionListener(this);
+        btnDashboard.addActionListener(this);
+        btnLogout.addActionListener(this);
 
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                dispose();
+        addWindowListener(new WindowAdapter(){
+
+            public void windowClosing(WindowEvent e){
+
+                System.exit(0);
+
             }
+
         });
 
-        setExtendedState(Frame.MAXIMIZED_BOTH);
         setVisible(true);
+
     }
 
     void displayProfile() {
 
-    ta.setFont(new Font("Monospaced", Font.PLAIN, 18));
+        valUsername.setText(user.getUsername());
 
-    ta.setText("");
+        valUserId.setText(user.getUserId());
 
-    ta.append("==============================================================\n");
-    ta.append("                     USER PROFILE\n");
-    ta.append("==============================================================\n\n");
+        valPassword.setText(user.getPassword());
 
-    ta.append("+----------------------+--------------------------------------+\n");
-    ta.append("| Field                | Value                                |\n");
-    ta.append("+----------------------+--------------------------------------+\n");
+        valGmail.setText(user.getGmail());
 
-    ta.append(String.format("| %-20s | %-36s |\n",
-            "Username", user.getUsername()));
+        valPhone.setText(user.getPhone());
 
-    ta.append(String.format("| %-20s | %-36s |\n",
-            "User ID", user.getUserId()));
+    }
 
-    ta.append(String.format("| %-20s | %-36s |\n",
-            "Password", user.getPassword()));
-
-    ta.append(String.format("| %-20s | %-36s |\n",
-            "Gmail", user.getGmail()));
-
-    ta.append(String.format("| %-20s | %-36s |\n",
-            "Phone", user.getPhone()));
-
-    ta.append("+----------------------+--------------------------------------+\n");
-
-}
     public void actionPerformed(ActionEvent e) {
 
-        if(e.getSource()==refresh) {
+        if(e.getSource()==btnRefresh){
+
             displayProfile();
+
         }
 
-        if(e.getSource()==logout) {
-            new LoginPage();
+        if(e.getSource()==btnDashboard){
+
+            new UserDashboard(user);
+
             dispose();
-        }
-    }
-}
 
+        }
+
+        if(e.getSource()==btnLogout){
+
+            new LoginPage();
+
+            dispose();
+
+        }
+
+    }
+
+}

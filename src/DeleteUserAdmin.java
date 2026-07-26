@@ -4,8 +4,10 @@ import java.awt.event.*;
 public class DeleteUserAdmin extends Frame implements ActionListener {
 
     Label title;
+    Label heading;
     Label label;
     Label warning;
+    Label info;
 
     TextField txtUsername;
 
@@ -20,94 +22,96 @@ public class DeleteUserAdmin extends Frame implements ActionListener {
         fileManager = new FileManager();
 
         setTitle("User Management System - Delete User");
-
         setExtendedState(Frame.MAXIMIZED_BOTH);
+        setLayout(new BorderLayout());
+        setBackground(new Color(243,247,252));
 
-        setLayout(new BorderLayout(20, 20));
-
-        setBackground(new Color(235, 245, 255));
-
-        Panel top = new Panel();
-        top.setBackground(new Color(220, 53, 69));
+        Panel header = new Panel(new BorderLayout());
+        header.setBackground(new Color(183,28,28));
+        header.setPreferredSize(new Dimension(100,90));
 
         title = new Label("DELETE USER", Label.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 34));
         title.setForeground(Color.WHITE);
 
-        top.add(title);
+        header.add(title, BorderLayout.CENTER);
 
-        add(top, BorderLayout.NORTH);
+        add(header, BorderLayout.NORTH);
 
-        Panel form = new Panel(new GridLayout(2, 2, 20, 20));
+        Panel outer = new Panel(new GridBagLayout());
+        outer.setBackground(new Color(243,247,252));
+
+        Panel card = new Panel(new BorderLayout(0,30));
+        card.setPreferredSize(new Dimension(760,430));
+        card.setBackground(Color.WHITE);
+
+        heading = new Label("Remove Registered User", Label.CENTER);
+        heading.setFont(new Font("Arial", Font.BOLD, 28));
+        heading.setForeground(new Color(40,40,40));
+
+        card.add(heading, BorderLayout.NORTH);
+
+        Panel form = new Panel(new GridLayout(4,1,15,18));
         form.setBackground(Color.WHITE);
 
-        Font labelFont = new Font("Arial", Font.BOLD, 20);
-        Font textFont = new Font("Arial", Font.PLAIN, 20);
+        label = new Label("Username");
+        label.setFont(new Font("Arial", Font.BOLD,20));
 
-        label = new Label("Enter Username");
-        label.setFont(labelFont);
+        txtUsername = new TextField();
+        txtUsername.setFont(new Font("Arial",Font.PLAIN,20));
 
-        txtUsername = new TextField(25);
-        txtUsername.setFont(textFont);
+        warning = new Label("Warning",Label.CENTER);
+        warning.setFont(new Font("Arial",Font.BOLD,20));
+        warning.setForeground(new Color(198,40,40));
 
-        warning = new Label("Warning");
-        warning.setFont(labelFont);
-        warning.setForeground(Color.RED);
-
-        Label info = new Label("Deleting a user is permanent.");
-        info.setFont(new Font("Arial", Font.PLAIN, 18));
-        info.setForeground(Color.DARK_GRAY);
+        info = new Label(
+                "Deleting a user account is permanent and cannot be undone.",
+                Label.CENTER);
+        info.setFont(new Font("Arial",Font.PLAIN,18));
+        info.setForeground(Color.GRAY);
 
         form.add(label);
         form.add(txtUsername);
         form.add(warning);
         form.add(info);
 
-        Panel buttons = new Panel();
-        buttons.setBackground(Color.WHITE);
+        card.add(form,BorderLayout.CENTER);
+
+        Panel buttonPanel = new Panel(new FlowLayout(FlowLayout.CENTER,25,10));
+        buttonPanel.setBackground(Color.WHITE);
 
         delete = new Button("DELETE");
         clear = new Button("CLEAR");
         back = new Button("BACK");
 
-        Font buttonFont = new Font("Arial", Font.BOLD, 18);
+        Font btnFont = new Font("Arial",Font.BOLD,18);
 
-        delete.setFont(buttonFont);
-        clear.setFont(buttonFont);
-        back.setFont(buttonFont);
+        delete.setFont(btnFont);
+        clear.setFont(btnFont);
+        back.setFont(btnFont);
 
-        delete.setBackground(new Color(220, 53, 69));
+        delete.setPreferredSize(new Dimension(160,45));
+        clear.setPreferredSize(new Dimension(160,45));
+        back.setPreferredSize(new Dimension(160,45));
+
+        delete.setBackground(new Color(198,40,40));
         delete.setForeground(Color.WHITE);
 
-        clear.setBackground(new Color(255, 193, 7));
+        clear.setBackground(new Color(255,193,7));
         clear.setForeground(Color.BLACK);
 
-        back.setBackground(new Color(33, 150, 243));
+        back.setBackground(new Color(25,118,210));
         back.setForeground(Color.WHITE);
 
-        buttons.add(delete);
-        buttons.add(new Label("     "));
-        buttons.add(clear);
-        buttons.add(new Label("     "));
-        buttons.add(back);
+        buttonPanel.add(delete);
+        buttonPanel.add(clear);
+        buttonPanel.add(back);
 
-        Panel card = new Panel(new BorderLayout(20, 20));
-        card.setBackground(Color.WHITE);
+        card.add(buttonPanel,BorderLayout.SOUTH);
 
-        Label heading = new Label("Delete Registered User", Label.CENTER);
-        heading.setFont(new Font("Arial", Font.BOLD, 24));
-        heading.setForeground(new Color(25, 25, 112));
+        outer.add(card);
 
-        card.add(heading, BorderLayout.NORTH);
-        card.add(form, BorderLayout.CENTER);
-        card.add(buttons, BorderLayout.SOUTH);
-
-        Panel center = new Panel(new GridBagLayout());
-        center.setBackground(new Color(235, 245, 255));
-
-        center.add(card);
-
-        add(center, BorderLayout.CENTER);
+        add(outer,BorderLayout.CENTER);
 
         delete.addActionListener(this);
         clear.addActionListener(this);
@@ -126,8 +130,7 @@ public class DeleteUserAdmin extends Frame implements ActionListener {
         setVisible(true);
 
     }
-
-    public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == delete) {
 
@@ -138,7 +141,7 @@ public class DeleteUserAdmin extends Frame implements ActionListener {
                 new MessageDialog(
                         this,
                         "Error",
-                        "Enter Username"
+                        "Please enter a username."
                 ).setVisible(true);
 
                 return;
@@ -152,7 +155,7 @@ public class DeleteUserAdmin extends Frame implements ActionListener {
                 new MessageDialog(
                         this,
                         "Error",
-                        "User Not Found"
+                        "User not found."
                 ).setVisible(true);
 
                 return;
@@ -166,7 +169,7 @@ public class DeleteUserAdmin extends Frame implements ActionListener {
                 new MessageDialog(
                         this,
                         "Success",
-                        "User Deleted Successfully"
+                        "User deleted successfully."
                 ).setVisible(true);
 
                 txtUsername.setText("");
@@ -176,7 +179,7 @@ public class DeleteUserAdmin extends Frame implements ActionListener {
                 new MessageDialog(
                         this,
                         "Error",
-                        "Delete Failed"
+                        "Unable to delete user."
                 ).setVisible(true);
 
             }

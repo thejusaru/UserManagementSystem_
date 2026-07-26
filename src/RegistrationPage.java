@@ -1,4 +1,4 @@
-import java.awt.*;
+/*import java.awt.*;
 import java.awt.event.*;
 
 class RegistrationPage extends Frame implements ActionListener {
@@ -167,4 +167,4 @@ class RegistrationPage extends Frame implements ActionListener {
             dispose();
         }
     }
-}
+}*/

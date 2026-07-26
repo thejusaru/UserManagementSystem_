@@ -6,6 +6,7 @@ public class UserDashboard extends Frame implements ActionListener {
     User user;
 
     Label title;
+    Label heading;
     Label welcome;
 
     Button btnUpdate;
@@ -18,52 +19,57 @@ public class UserDashboard extends Frame implements ActionListener {
 
         this.user = user;
 
-        setTitle("User Management System - User Dashboard");
+        setTitle("User Management System - Dashboard");
 
         setExtendedState(Frame.MAXIMIZED_BOTH);
 
-        setLayout(new BorderLayout(20, 20));
+        setLayout(new BorderLayout());
 
-        setBackground(new Color(235, 245, 255));
+        setBackground(new Color(245, 248, 252));
 
-        Panel top = new Panel(new BorderLayout());
+        Panel header = new Panel(new BorderLayout());
 
-        top.setBackground(new Color(255, 193, 7));
+        header.setBackground(new Color(25,118,210));
 
-        title = new Label("USER DASHBOARD", Label.CENTER);
+        title = new Label("USER DASHBOARD",Label.CENTER);
 
-        title.setFont(new Font("Arial", Font.BOLD, 34));
+        title.setFont(new Font("Arial",Font.BOLD,34));
 
-        title.setForeground(Color.BLACK);
+        title.setForeground(Color.WHITE);
 
-        btnLogout = new Button("LOGOUT");
+        header.add(title,BorderLayout.CENTER);
 
-        btnLogout.setFont(new Font("Arial", Font.BOLD, 16));
+        add(header,BorderLayout.NORTH);
 
-        btnLogout.setBackground(new Color(220, 53, 69));
+        Panel center = new Panel(new GridBagLayout());
 
-        btnLogout.setForeground(Color.WHITE);
+        center.setBackground(new Color(245,248,252));
 
-        top.add(title, BorderLayout.CENTER);
+        Panel card = new Panel(new BorderLayout(20,20));
 
-        top.add(btnLogout, BorderLayout.EAST);
+        card.setBackground(Color.WHITE);
 
-        add(top, BorderLayout.NORTH);
+        card.setPreferredSize(new Dimension(650,520));
 
-        Panel menu = new Panel(new GridLayout(5, 1, 20, 20));
+        heading = new Label("Dashboard Menu",Label.CENTER);
 
-        menu.setBackground(Color.WHITE);
+        heading.setFont(new Font("Arial",Font.BOLD,28));
 
-        welcome = new Label(
-                "Welcome, " + user.getUsername(),
-                Label.CENTER
-        );
+        heading.setForeground(new Color(25,25,112));
 
-        welcome.setFont(new Font("Arial", Font.BOLD, 24));
+        card.add(heading,BorderLayout.NORTH);
 
-        welcome.setForeground(new Color(25, 25, 112));
+        Panel body = new Panel(new GridLayout(6,1,18,18));
 
-        btnUpdate = new Button("UPDATE DETAILS");
+        body.setBackground(Color.WHITE);
+
+        welcome = new Label("Welcome, " + user.getUsername(),Label.CENTER);
+
+        welcome.setFont(new Font("Arial",Font.BOLD,22));
+
+        welcome.setForeground(new Color(60,60,60));
+
+        btnUpdate = new Button("UPDATE PROFILE");
 
         btnView = new Button("VIEW PROFILE");
 
@@ -71,50 +77,40 @@ public class UserDashboard extends Frame implements ActionListener {
 
         btnDelete = new Button("DELETE ACCOUNT");
 
-        Font buttonFont = new Font("Arial", Font.BOLD, 20);
+        btnLogout = new Button("LOGOUT");
+
+        Font buttonFont = new Font("Arial",Font.BOLD,18);
 
         btnUpdate.setFont(buttonFont);
         btnView.setFont(buttonFont);
         btnChangePassword.setFont(buttonFont);
         btnDelete.setFont(buttonFont);
+        btnLogout.setFont(buttonFont);
 
-        btnUpdate.setBackground(new Color(33, 150, 243));
-        btnView.setBackground(new Color(76, 175, 80));
-        btnChangePassword.setBackground(new Color(255, 193, 7));
-        btnDelete.setBackground(new Color(220, 53, 69));
+        btnUpdate.setBackground(new Color(33,150,243));
+        btnView.setBackground(new Color(76,175,80));
+        btnChangePassword.setBackground(new Color(255,193,7));
+        btnDelete.setBackground(new Color(220,53,69));
+        btnLogout.setBackground(new Color(97,97,97));
 
         btnUpdate.setForeground(Color.WHITE);
         btnView.setForeground(Color.WHITE);
         btnChangePassword.setForeground(Color.BLACK);
         btnDelete.setForeground(Color.WHITE);
+        btnLogout.setForeground(Color.WHITE);
 
-        menu.add(welcome);
-        menu.add(btnUpdate);
-        menu.add(btnView);
-        menu.add(btnChangePassword);
-        menu.add(btnDelete);
+        body.add(welcome);
+        body.add(btnUpdate);
+        body.add(btnView);
+        body.add(btnChangePassword);
+        body.add(btnDelete);
+        body.add(btnLogout);
 
-        Panel card = new Panel(new BorderLayout(20, 20));
-
-        card.setBackground(Color.WHITE);
-
-        Label heading = new Label("Dashboard Menu", Label.CENTER);
-
-        heading.setFont(new Font("Arial", Font.BOLD, 28));
-
-        heading.setForeground(new Color(25, 25, 112));
-
-        card.add(heading, BorderLayout.NORTH);
-
-        card.add(menu, BorderLayout.CENTER);
-
-        Panel center = new Panel(new GridBagLayout());
-
-        center.setBackground(new Color(235, 245, 255));
+        card.add(body,BorderLayout.CENTER);
 
         center.add(card);
 
-        add(center, BorderLayout.CENTER);
+        add(center,BorderLayout.CENTER);
 
         btnUpdate.addActionListener(this);
         btnView.addActionListener(this);
@@ -135,8 +131,7 @@ public class UserDashboard extends Frame implements ActionListener {
         setVisible(true);
 
     }
-
-    public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == btnUpdate) {
 

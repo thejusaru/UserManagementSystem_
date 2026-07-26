@@ -4,69 +4,84 @@ import java.awt.event.*;
 public class MessageDialog extends Dialog implements ActionListener {
 
     Label message;
+
     Button ok;
 
     public MessageDialog(Frame parent, String title, String msg) {
 
         super(parent, title, true);
 
-        setLayout(new BorderLayout(20,20));
+        setLayout(new BorderLayout());
 
-        setBackground(new Color(235,245,255));
+        setBackground(new Color(240,245,252));
 
-        //================ TITLE =================//
+        Panel header = new Panel(new BorderLayout());
 
-        Panel top = new Panel();
+        header.setBackground(new Color(25,118,210));
 
-        top.setBackground(new Color(25,118,210));
+        header.setPreferredSize(new Dimension(0,60));
 
-        Label heading = new Label(title, Label.CENTER);
+        Label heading = new Label(title,Label.CENTER);
 
-        heading.setFont(new Font("Arial", Font.BOLD, 22));
+        heading.setFont(new Font("Arial",Font.BOLD,24));
 
         heading.setForeground(Color.WHITE);
 
-        top.add(heading);
+        header.add(heading,BorderLayout.CENTER);
 
-        add(top, BorderLayout.NORTH);
+        add(header,BorderLayout.NORTH);
 
-        //================ MESSAGE =================//
+        Panel center = new Panel(new GridBagLayout());
 
-        message = new Label(msg, Label.CENTER);
+        center.setBackground(new Color(240,245,252));
 
-        message.setFont(new Font("Arial", Font.PLAIN, 18));
+        Panel card = new Panel(new BorderLayout(20,25));
 
-        Panel center = new Panel();
+        card.setBackground(Color.WHITE);
 
-        center.setBackground(Color.WHITE);
+        card.setPreferredSize(new Dimension(460,180));
 
-        center.add(message);
+        message = new Label(msg,Label.CENTER);
 
-        add(center, BorderLayout.CENTER);
+        message.setFont(new Font("Arial",Font.PLAIN,20));
 
-        //================ BUTTON =================//
+        message.setForeground(new Color(60,60,60));
+
+        Panel messagePanel = new Panel(new GridBagLayout());
+
+        messagePanel.setBackground(Color.WHITE);
+
+        messagePanel.add(message);
+
+        Panel buttonPanel = new Panel();
+
+        buttonPanel.setBackground(Color.WHITE);
 
         ok = new Button("OK");
 
-        ok.setFont(new Font("Arial", Font.BOLD, 18));
+        ok.setFont(new Font("Arial",Font.BOLD,18));
 
-        ok.setBackground(new Color(76,175,80));
+        ok.setPreferredSize(new Dimension(140,45));
+
+        ok.setBackground(new Color(46,125,50));
 
         ok.setForeground(Color.WHITE);
 
-        Panel bottom = new Panel();
+        buttonPanel.add(ok);
 
-        bottom.setBackground(new Color(235,245,255));
+        card.add(messagePanel,BorderLayout.CENTER);
 
-        bottom.add(ok);
+        card.add(buttonPanel,BorderLayout.SOUTH);
 
-        add(bottom, BorderLayout.SOUTH);
+        center.add(card);
+
+        add(center,BorderLayout.CENTER);
 
         ok.addActionListener(this);
 
-        addWindowListener(new WindowAdapter() {
+        addWindowListener(new WindowAdapter(){
 
-            public void windowClosing(WindowEvent e) {
+            public void windowClosing(WindowEvent e){
 
                 dispose();
 
@@ -74,33 +89,37 @@ public class MessageDialog extends Dialog implements ActionListener {
 
         });
 
-        setSize(420,200);
+        setSize(550,280);
 
         setLocationRelativeTo(parent);
+
+        setResizable(false);
 
         setVisible(false);
 
     }
 
-    // Center the dialog relative to its parent
     private void setLocationRelativeTo(Frame parent) {
 
-        if (parent != null) {
+        if(parent!=null){
 
-            int x = parent.getX() + (parent.getWidth() - getWidth()) / 2;
+            int x = parent.getX() + (parent.getWidth()-getWidth())/2;
 
-            int y = parent.getY() + (parent.getHeight() - getHeight()) / 2;
+            int y = parent.getY() + (parent.getHeight()-getHeight())/2;
 
-            setLocation(x, y);
-
-        } else {
-
-            setLocation(450, 250);
+            setLocation(x,y);
 
         }
+
+        else{
+
+            setLocation(450,250);
+
+        }
+
     }
 
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e){
 
         dispose();
 

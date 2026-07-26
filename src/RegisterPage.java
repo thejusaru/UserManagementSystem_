@@ -4,6 +4,8 @@ import java.awt.event.*;
 public class RegisterPage extends Frame implements ActionListener {
 
     Label title;
+    Label heading;
+
     Label l1, l2, l3, l4, l5;
 
     TextField txtUsername;
@@ -23,29 +25,59 @@ public class RegisterPage extends Frame implements ActionListener {
         fileManager = new FileManager();
 
         setTitle("User Management System - Register");
+
         setExtendedState(Frame.MAXIMIZED_BOTH);
-        setLayout(new BorderLayout(20, 20));
-        setBackground(new Color(235, 245, 255));
 
-        Panel top = new Panel();
-        top.setBackground(new Color(25, 118, 210));
+        setLayout(new BorderLayout());
 
-        title = new Label("USER REGISTRATION", Label.CENTER);
-        title.setFont(new Font("Arial", Font.BOLD, 36));
+        setBackground(new Color(240,245,252));
+
+        Panel header = new Panel(new BorderLayout());
+
+        header.setBackground(new Color(25,118,210));
+
+        header.setPreferredSize(new Dimension(0,90));
+
+        title = new Label("USER REGISTRATION",Label.CENTER);
+
+        title.setFont(new Font("Arial",Font.BOLD,36));
+
         title.setForeground(Color.WHITE);
 
-        top.add(title);
-        add(top, BorderLayout.NORTH);
+        header.add(title,BorderLayout.CENTER);
 
-        Panel form = new Panel(new GridLayout(5, 2, 20, 20));
+        add(header,BorderLayout.NORTH);
+
+        Panel center = new Panel(new GridBagLayout());
+
+        center.setBackground(new Color(240,245,252));
+
+        Panel card = new Panel(new BorderLayout(30,30));
+
+        card.setBackground(Color.WHITE);
+
+        card.setPreferredSize(new Dimension(820,620));
+
+        heading = new Label("Create Your Account",Label.CENTER);
+
+        heading.setFont(new Font("Arial",Font.BOLD,28));
+
+        heading.setForeground(new Color(25,25,112));
+
+        card.add(heading,BorderLayout.NORTH);
+
+        Panel form = new Panel(new GridLayout(5,2,30,25));
+
         form.setBackground(Color.WHITE);
 
-        Font labelFont = new Font("Arial", Font.BOLD, 20);
+        Font labelFont = new Font("Arial",Font.BOLD,20);
+
+        Font textFont = new Font("Arial",Font.PLAIN,20);
 
         l1 = new Label("Username");
         l2 = new Label("User ID");
         l3 = new Label("Password");
-        l4 = new Label("Gmail");
+        l4 = new Label("Gmail Address");
         l5 = new Label("Phone Number");
 
         l1.setFont(labelFont);
@@ -54,13 +86,11 @@ public class RegisterPage extends Frame implements ActionListener {
         l4.setFont(labelFont);
         l5.setFont(labelFont);
 
-        Font textFont = new Font("Arial", Font.PLAIN, 20);
-
-        txtUsername = new TextField(25);
-        txtUserId = new TextField(25);
-        txtPassword = new TextField(25);
-        txtGmail = new TextField(25);
-        txtPhone = new TextField(25);
+        txtUsername = new TextField(30);
+        txtUserId = new TextField(30);
+        txtPassword = new TextField(30);
+        txtGmail = new TextField(30);
+        txtPhone = new TextField(30);
 
         txtUsername.setFont(textFont);
         txtUserId.setFont(textFont);
@@ -85,68 +115,69 @@ public class RegisterPage extends Frame implements ActionListener {
         form.add(l5);
         form.add(txtPhone);
 
-        Panel buttons = new Panel();
-        buttons.setBackground(Color.WHITE);
+        Panel buttonPanel = new Panel(new FlowLayout(FlowLayout.CENTER,25,10));
+
+        buttonPanel.setBackground(Color.WHITE);
 
         btnSave = new Button("REGISTER");
+
         btnClear = new Button("CLEAR");
+
         btnBack = new Button("BACK");
 
-        Font buttonFont = new Font("Arial", Font.BOLD, 18);
+        Font buttonFont = new Font("Arial",Font.BOLD,18);
 
         btnSave.setFont(buttonFont);
         btnClear.setFont(buttonFont);
         btnBack.setFont(buttonFont);
 
-        btnSave.setBackground(new Color(76, 175, 80));
+        btnSave.setPreferredSize(new Dimension(170,50));
+        btnClear.setPreferredSize(new Dimension(170,50));
+        btnBack.setPreferredSize(new Dimension(170,50));
+
+        btnSave.setBackground(new Color(46,125,50));
         btnSave.setForeground(Color.WHITE);
 
-        btnClear.setBackground(new Color(255, 193, 7));
-        btnClear.setForeground(Color.BLACK);
+        btnClear.setBackground(new Color(251,140,0));
+        btnClear.setForeground(Color.WHITE);
 
-        btnBack.setBackground(new Color(33, 150, 243));
+        btnBack.setBackground(new Color(25,118,210));
         btnBack.setForeground(Color.WHITE);
 
-        buttons.add(btnSave);
-        buttons.add(new Label("     "));
-        buttons.add(btnClear);
-        buttons.add(new Label("     "));
-        buttons.add(btnBack);
+        buttonPanel.add(btnSave);
+        buttonPanel.add(btnClear);
+        buttonPanel.add(btnBack);
 
-        Panel card = new Panel(new BorderLayout(20, 20));
-        card.setBackground(Color.WHITE);
+        card.add(form,BorderLayout.CENTER);
 
-        Label heading = new Label("Create Your Account", Label.CENTER);
-        heading.setFont(new Font("Arial", Font.BOLD, 24));
-        heading.setForeground(new Color(25, 25, 112));
-
-        card.add(heading, BorderLayout.NORTH);
-        card.add(form, BorderLayout.CENTER);
-        card.add(buttons, BorderLayout.SOUTH);
-
-        Panel center = new Panel(new GridBagLayout());
-        center.setBackground(new Color(235, 245, 255));
+        card.add(buttonPanel,BorderLayout.SOUTH);
 
         center.add(card);
 
-        add(center, BorderLayout.CENTER);
+        add(center,BorderLayout.CENTER);
 
         btnSave.addActionListener(this);
+
         btnClear.addActionListener(this);
+
         btnBack.addActionListener(this);
 
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
+        addWindowListener(new WindowAdapter(){
+
+            public void windowClosing(WindowEvent e){
+
                 System.exit(0);
+
             }
+
         });
 
         txtUsername.requestFocus();
 
         setVisible(true);
-    }
 
-    public void actionPerformed(ActionEvent e) {
+    }
+        public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == btnSave) {
 
@@ -165,13 +196,14 @@ public class RegisterPage extends Frame implements ActionListener {
                 new MessageDialog(
                         this,
                         "Error",
-                        "Please fill all the fields."
+                        "Please fill all the required fields."
                 ).setVisible(true);
 
                 return;
+
             }
 
-            if (fileManager.findUser(username) != null) {
+            if (fileManager.usernameExists(username)) {
 
                 new MessageDialog(
                         this,
@@ -180,6 +212,43 @@ public class RegisterPage extends Frame implements ActionListener {
                 ).setVisible(true);
 
                 return;
+
+            }
+
+            if (fileManager.userIdExists(userId)) {
+
+                new MessageDialog(
+                        this,
+                        "Error",
+                        "User ID already exists."
+                ).setVisible(true);
+
+                return;
+
+            }
+
+            if (fileManager.gmailExists(gmail)) {
+
+                new MessageDialog(
+                        this,
+                        "Error",
+                        "Gmail already registered."
+                ).setVisible(true);
+
+                return;
+
+            }
+
+            if (fileManager.phoneExists(phone)) {
+
+                new MessageDialog(
+                        this,
+                        "Error",
+                        "Phone number already registered."
+                ).setVisible(true);
+
+                return;
+
             }
 
             User user = new User(
@@ -197,7 +266,7 @@ public class RegisterPage extends Frame implements ActionListener {
                 new MessageDialog(
                         this,
                         "Success",
-                        "User Registered Successfully!"
+                        "Registration completed successfully!"
                 ).setVisible(true);
 
                 txtUsername.setText("");
@@ -206,14 +275,20 @@ public class RegisterPage extends Frame implements ActionListener {
                 txtGmail.setText("");
                 txtPhone.setText("");
 
-            } else {
+                txtUsername.requestFocus();
+
+            }
+
+            else {
 
                 new MessageDialog(
                         this,
                         "Error",
-                        "Registration Failed."
+                        "Unable to register user."
                 ).setVisible(true);
+
             }
+
         }
 
         if (e.getSource() == btnClear) {
@@ -223,12 +298,19 @@ public class RegisterPage extends Frame implements ActionListener {
             txtPassword.setText("");
             txtGmail.setText("");
             txtPhone.setText("");
+
+            txtUsername.requestFocus();
+
         }
 
         if (e.getSource() == btnBack) {
 
             new HomePage();
+
             dispose();
+
         }
+
     }
+
 }

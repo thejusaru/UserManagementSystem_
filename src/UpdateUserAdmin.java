@@ -4,10 +4,10 @@ import java.awt.event.*;
 public class UpdateUserAdmin extends Frame implements ActionListener {
 
     Label title;
+    Label heading;
 
     Label searchLabel;
     TextField searchUsername;
-
     Button searchButton;
 
     Label l1, l2, l3, l4, l5;
@@ -19,7 +19,6 @@ public class UpdateUserAdmin extends Frame implements ActionListener {
     TextField txtPhone;
 
     Button save;
-    Button clear;
     Button back;
 
     User user;
@@ -30,45 +29,67 @@ public class UpdateUserAdmin extends Frame implements ActionListener {
 
         fileManager = new FileManager();
 
-        setTitle("Admin - Update User");
+        setTitle("User Management System - Update User");
 
         setExtendedState(Frame.MAXIMIZED_BOTH);
 
-        setLayout(new BorderLayout(20, 20));
+        setLayout(new BorderLayout());
 
-        setBackground(new Color(235, 245, 255));
+        setBackground(new Color(245,248,252));
 
-        Panel top = new Panel();
+        Panel header = new Panel(new BorderLayout());
 
-        top.setBackground(new Color(255, 193, 7));
+        header.setBackground(new Color(25,118,210));
 
         title = new Label("UPDATE USER DETAILS", Label.CENTER);
 
-        title.setFont(new Font("Arial", Font.BOLD, 34));
+        title.setFont(new Font("Arial", Font.BOLD,34));
 
-        title.setForeground(Color.BLACK);
+        title.setForeground(Color.WHITE);
 
-        top.add(title);
+        header.add(title, BorderLayout.CENTER);
 
-        add(top, BorderLayout.NORTH);
+        add(header, BorderLayout.NORTH);
 
-        Panel searchPanel = new Panel(new FlowLayout(FlowLayout.CENTER, 15, 15));
+        Panel center = new Panel(new GridBagLayout());
+
+        center.setBackground(new Color(245,248,252));
+
+        Panel card = new Panel(new BorderLayout(20,20));
+
+        card.setBackground(Color.WHITE);
+
+        card.setPreferredSize(new Dimension(780,600));
+
+        heading = new Label("Search User and Update Information", Label.CENTER);
+
+        heading.setFont(new Font("Arial",Font.BOLD,26));
+
+        heading.setForeground(new Color(25,25,112));
+
+        card.add(heading,BorderLayout.NORTH);
+
+        Panel body = new Panel(new BorderLayout(20,25));
+
+        body.setBackground(Color.WHITE);
+
+        Panel searchPanel = new Panel(new FlowLayout(FlowLayout.CENTER,15,15));
 
         searchPanel.setBackground(Color.WHITE);
 
-        searchLabel = new Label("Enter Username");
+        searchLabel = new Label("Username");
 
-        searchLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        searchLabel.setFont(new Font("Arial",Font.BOLD,18));
 
         searchUsername = new TextField(25);
 
-        searchUsername.setFont(new Font("Arial", Font.PLAIN, 18));
+        searchUsername.setFont(new Font("Arial",Font.PLAIN,18));
 
         searchButton = new Button("SEARCH");
 
-        searchButton.setFont(new Font("Arial", Font.BOLD, 18));
+        searchButton.setFont(new Font("Arial",Font.BOLD,17));
 
-        searchButton.setBackground(new Color(33, 150, 243));
+        searchButton.setBackground(new Color(33,150,243));
 
         searchButton.setForeground(Color.WHITE);
 
@@ -78,55 +99,76 @@ public class UpdateUserAdmin extends Frame implements ActionListener {
 
         searchPanel.add(searchButton);
 
-        Panel form = new Panel(new GridLayout(5, 2, 20, 20));
+        Panel form = new Panel(new GridLayout(5,2,18,18));
 
         form.setBackground(Color.WHITE);
 
-        Font labelFont = new Font("Arial", Font.BOLD, 20);
+        Font labelFont = new Font("Arial",Font.BOLD,18);
+
+        Font textFont = new Font("Arial",Font.PLAIN,18);
 
         l1 = new Label("Username");
+
         l2 = new Label("User ID");
+
         l3 = new Label("Password");
+
         l4 = new Label("Gmail");
+
         l5 = new Label("Phone Number");
 
         l1.setFont(labelFont);
+
         l2.setFont(labelFont);
+
         l3.setFont(labelFont);
+
         l4.setFont(labelFont);
+
         l5.setFont(labelFont);
 
-        Font textFont = new Font("Arial", Font.PLAIN, 20);
-
         txtUsername = new TextField();
+
         txtUserId = new TextField();
+
         txtPassword = new TextField();
+
         txtGmail = new TextField();
+
         txtPhone = new TextField();
 
         txtUsername.setFont(textFont);
-        txtUserId.setFont(textFont);
-        txtPassword.setFont(textFont);
-        txtGmail.setFont(textFont);
-        txtPhone.setFont(textFont);
 
-        txtPassword.setEchoChar('*');
+        txtUserId.setFont(textFont);
+
+        txtPassword.setFont(textFont);
+
+        txtGmail.setFont(textFont);
+
+        txtPhone.setFont(textFont);
 
         txtUsername.setEditable(false);
 
+        txtPassword.setEchoChar('*');
+
         form.add(l1);
+
         form.add(txtUsername);
 
         form.add(l2);
+
         form.add(txtUserId);
 
         form.add(l3);
+
         form.add(txtPassword);
 
         form.add(l4);
+
         form.add(txtGmail);
 
         form.add(l5);
+
         form.add(txtPhone);
 
         Panel buttons = new Panel();
@@ -134,48 +176,45 @@ public class UpdateUserAdmin extends Frame implements ActionListener {
         buttons.setBackground(Color.WHITE);
 
         save = new Button("UPDATE");
-        clear = new Button("CLEAR");
+
         back = new Button("BACK");
 
-        Font buttonFont = new Font("Arial", Font.BOLD, 18);
+        Font buttonFont = new Font("Arial",Font.BOLD,18);
 
         save.setFont(buttonFont);
-        clear.setFont(buttonFont);
+
         back.setFont(buttonFont);
 
-        save.setBackground(new Color(255, 193, 7));
-        clear.setBackground(new Color(244, 244, 244));
-        back.setBackground(new Color(33, 150, 243));
+        save.setBackground(new Color(255,193,7));
 
         save.setForeground(Color.BLACK);
-        clear.setForeground(Color.BLACK);
+
+        back.setBackground(new Color(33,150,243));
+
         back.setForeground(Color.WHITE);
 
         buttons.add(save);
-        buttons.add(new Label("     "));
-        buttons.add(clear);
-        buttons.add(new Label("     "));
+
+        buttons.add(new Label("        "));
+
         buttons.add(back);
 
-        Panel card = new Panel(new BorderLayout(20, 20));
+        body.add(searchPanel,BorderLayout.NORTH);
 
-        card.setBackground(Color.WHITE);
+        body.add(form,BorderLayout.CENTER);
 
-        card.add(searchPanel, BorderLayout.NORTH);
-        card.add(form, BorderLayout.CENTER);
-        card.add(buttons, BorderLayout.SOUTH);
+        body.add(buttons,BorderLayout.SOUTH);
 
-        Panel center = new Panel(new GridBagLayout());
-
-        center.setBackground(new Color(235, 245, 255));
+        card.add(body,BorderLayout.CENTER);
 
         center.add(card);
 
-        add(center, BorderLayout.CENTER);
+        add(center,BorderLayout.CENTER);
 
         searchButton.addActionListener(this);
+
         save.addActionListener(this);
-        clear.addActionListener(this);
+
         back.addActionListener(this);
 
         addWindowListener(new WindowAdapter() {
@@ -193,134 +232,202 @@ public class UpdateUserAdmin extends Frame implements ActionListener {
         setVisible(true);
 
     }
-
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getSource() == searchButton) {
+    if (e.getSource() == searchButton) {
 
-            String username = searchUsername.getText().trim();
+        String username = searchUsername.getText().trim();
 
-            if (username.equals("")) {
+        if (username.equals("")) {
 
-                new MessageDialog(
-                        this,
-                        "Error",
-                        "Enter Username."
-                ).setVisible(true);
+            new MessageDialog(
+                    this,
+                    "Error",
+                    "Please enter a username."
+            ).setVisible(true);
 
-                return;
-
-            }
-
-            user = fileManager.findUser(username);
-
-            if (user != null) {
-
-                txtUsername.setText(user.getUsername());
-                txtUserId.setText(user.getUserId());
-                txtPassword.setText(user.getPassword());
-                txtGmail.setText(user.getGmail());
-                txtPhone.setText(user.getPhone());
-
-            } else {
-
-                new MessageDialog(
-                        this,
-                        "Error",
-                        "User Not Found."
-                ).setVisible(true);
-
-            }
+            return;
 
         }
 
-        if (e.getSource() == save) {
+        user = fileManager.findUser(username);
 
-            if (user == null) {
+        if (user == null) {
 
-                new MessageDialog(
-                        this,
-                        "Error",
-                        "Search a user first."
-                ).setVisible(true);
+            new MessageDialog(
+                    this,
+                    "Not Found",
+                    "No user found with the given username."
+            ).setVisible(true);
 
-                return;
-
-            }
-
-            String username = txtUsername.getText().trim();
-            String userId = txtUserId.getText().trim();
-            String password = txtPassword.getText().trim();
-            String gmail = txtGmail.getText().trim();
-            String phone = txtPhone.getText().trim();
-
-            if (username.equals("") ||
-                userId.equals("") ||
-                password.equals("") ||
-                gmail.equals("") ||
-                phone.equals("")) {
-
-                new MessageDialog(
-                        this,
-                        "Error",
-                        "Please fill all the fields."
-                ).setVisible(true);
-
-                return;
-
-            }
-
-            User updatedUser = new User(
-                    username,
-                    userId,
-                    password,
-                    gmail,
-                    phone
-            );
-
-            boolean result = fileManager.updateUser(updatedUser);
-
-            if (result) {
-
-                new MessageDialog(
-                        this,
-                        "Success",
-                        "User Updated Successfully."
-                ).setVisible(true);
-
-            } else {
-
-                new MessageDialog(
-                        this,
-                        "Error",
-                        "Unable to Update User."
-                ).setVisible(true);
-
-            }
+            return;
 
         }
 
-        if (e.getSource() == clear) {
+        txtUsername.setText(user.getUsername());
+        txtUserId.setText(user.getUserId());
+        txtPassword.setText(user.getPassword());
+        txtGmail.setText(user.getGmail());
+        txtPhone.setText(user.getPhone());
 
-            txtUsername.setText("");
-            txtUserId.setText("");
-            txtPassword.setText("");
-            txtGmail.setText("");
-            txtPhone.setText("");
-            searchUsername.setText("");
+    }
 
-            user = null;
+    if (e.getSource() == save) {
+
+        if (user == null) {
+
+            new MessageDialog(
+                    this,
+                    "Error",
+                    "Search a user before updating."
+            ).setVisible(true);
+
+            return;
 
         }
 
-        if (e.getSource() == back) {
+        String username = txtUsername.getText().trim();
+        String userId = txtUserId.getText().trim();
+        String password = txtPassword.getText().trim();
+        String gmail = txtGmail.getText().trim();
+        String phone = txtPhone.getText().trim();
 
-            new AdminDashboard();
+        if (username.equals("") ||
+            userId.equals("") ||
+            password.equals("") ||
+            gmail.equals("") ||
+            phone.equals("")) {
 
-            dispose();
+            new MessageDialog(
+                    this,
+                    "Error",
+                    "Please fill all the fields."
+            ).setVisible(true);
+
+            return;
+
+        }
+
+        if (!gmail.endsWith("@gmail.com")) {
+
+            new MessageDialog(
+                    this,
+                    "Invalid Gmail",
+                    "Please enter a valid Gmail address."
+            ).setVisible(true);
+
+            return;
+
+        }
+
+        if (phone.length() != 10) {
+
+            new MessageDialog(
+                    this,
+                    "Invalid Phone",
+                    "Phone number must contain exactly 10 digits."
+            ).setVisible(true);
+
+            return;
+
+        }
+
+        if (password.length() < 6) {
+
+            new MessageDialog(
+                    this,
+                    "Weak Password",
+                    "Password must contain at least 6 characters."
+            ).setVisible(true);
+
+            return;
+
+        }
+
+        User idUser = fileManager.findUserId(userId);
+
+        if (idUser != null &&
+            !idUser.getUsername().equals(user.getUsername())) {
+
+            new MessageDialog(
+                    this,
+                    "Duplicate User ID",
+                    "User ID already exists."
+            ).setVisible(true);
+
+            return;
+
+        }
+
+        User gmailUser = fileManager.findGmail(gmail);
+
+        if (gmailUser != null &&
+            !gmailUser.getUsername().equals(user.getUsername())) {
+
+            new MessageDialog(
+                    this,
+                    "Duplicate Gmail",
+                    "Gmail already exists."
+            ).setVisible(true);
+
+            return;
+
+        }
+
+        User phoneUser = fileManager.findPhone(phone);
+
+        if (phoneUser != null &&
+            !phoneUser.getUsername().equals(user.getUsername())) {
+
+            new MessageDialog(
+                    this,
+                    "Duplicate Phone",
+                    "Phone number already exists."
+            ).setVisible(true);
+
+            return;
+
+        }
+
+        User updatedUser = new User(
+                username,
+                userId,
+                password,
+                gmail,
+                phone
+        );
+
+        boolean updated = fileManager.updateUser(updatedUser);
+
+        if (updated) {
+
+            user = updatedUser;
+
+            new MessageDialog(
+                    this,
+                    "Success",
+                    "User details updated successfully."
+            ).setVisible(true);
+
+        } else {
+
+            new MessageDialog(
+                    this,
+                    "Error",
+                    "Unable to update user details."
+            ).setVisible(true);
 
         }
 
     }
 
+    if (e.getSource() == back) {
+
+        new AdminDashboard();
+
+        dispose();
+
+    }
+
+}
 }

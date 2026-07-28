@@ -1,5 +1,6 @@
 import java.sql.*;
 import java.util.ArrayList;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class FileManager {
 
@@ -316,14 +317,17 @@ public class FileManager {
 
     public boolean changePassword(String username, String newPassword) {
 
-        User user = findUser(username);
+    User user = findUser(username);
 
-        if (user == null)
-            return false;
+    if (user == null)
+        return false;
 
-        user.setPassword(newPassword);
+    String encryptedPassword =
+            BCrypt.hashpw(newPassword, BCrypt.gensalt());
 
-        return updateUser(user);
+    user.setPassword(encryptedPassword);
+
+    return updateUser(user);
 
     }
 

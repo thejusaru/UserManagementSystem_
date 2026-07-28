@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class RegisterPage extends Frame implements ActionListener {
 
@@ -251,13 +252,9 @@ public class RegisterPage extends Frame implements ActionListener {
 
             }
 
-            User user = new User(
-                    username,
-                    userId,
-                    password,
-                    gmail,
-                    phone
-            );
+            String encryptedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+
+            User user = new User(username,userId,encryptedPassword,gmail,phone);
 
             boolean saved = fileManager.saveUser(user);
 

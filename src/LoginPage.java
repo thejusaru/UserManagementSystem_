@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class LoginPage extends Frame implements ActionListener {
 
@@ -241,43 +242,42 @@ public class LoginPage extends Frame implements ActionListener {
                 return;
 
             }
+if (!BCrypt.checkpw(password, user.getPassword())) {
 
-            if (!user.getPassword().equals(password)) {
+    Dialog d = new Dialog(this, "Login Failed", true);
 
-                Dialog d = new Dialog(this, "Login Failed", true);
+    d.setLayout(new FlowLayout());
 
-                d.setLayout(new FlowLayout());
+    Label msg = new Label(
+            "Invalid Username or Password"
+    );
 
-                Label msg = new Label(
-                        "Invalid Username or Password"
-                );
+    Button retry = new Button("Try Again");
 
-                Button retry = new Button("Try Again");
+    d.add(msg);
+    d.add(retry);
 
-                d.add(msg);
-                d.add(retry);
+    retry.addActionListener(new ActionListener() {
 
-                retry.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
 
-                    public void actionPerformed(ActionEvent e) {
+            d.dispose();
 
-                        d.dispose();
+            txtPassword.setText("");
 
-                        txtPassword.setText("");
+            txtPassword.requestFocus();
 
-                        txtPassword.requestFocus();
+        }
 
-                    }
+    });
 
-                });
+    d.setSize(300,150);
 
-                d.setSize(300,150);
+    d.setVisible(true);
 
-                d.setVisible(true);
+    return;
 
-                return;
-
-            }
+}
 
 
             new UserDashboard(user);

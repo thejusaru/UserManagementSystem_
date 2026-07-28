@@ -186,7 +186,7 @@ public class ProfilePage extends Frame implements ActionListener {
 
         valUserId.setText(user.getUserId());
 
-        valPassword.setText(user.getPassword());
+        valPassword.setText("********");
 
         valGmail.setText(user.getGmail());
 

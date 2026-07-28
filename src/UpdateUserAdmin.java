@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class UpdateUserAdmin extends Frame implements ActionListener {
 
@@ -266,7 +267,7 @@ public class UpdateUserAdmin extends Frame implements ActionListener {
 
         txtUsername.setText(user.getUsername());
         txtUserId.setText(user.getUserId());
-        txtPassword.setText(user.getPassword());
+        txtPassword.setText("");
         txtGmail.setText(user.getGmail());
         txtPhone.setText(user.getPhone());
 
@@ -389,13 +390,9 @@ public class UpdateUserAdmin extends Frame implements ActionListener {
 
         }
 
-        User updatedUser = new User(
-                username,
-                userId,
-                password,
-                gmail,
-                phone
-        );
+        String encryptedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+
+        User updatedUser = new User(username,userId,encryptedPassword,gmail,phone);
 
         boolean updated = fileManager.updateUser(updatedUser);
 

@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class ChangePassword extends Frame implements ActionListener {
 
@@ -224,12 +225,10 @@ public class ChangePassword extends Frame implements ActionListener {
 
         }
 
-        if (!oldPass.equals(user.getPassword())) {
-
-            new MessageDialog(
-                    this,
-                    "Error",
-                    "Current password is incorrect."
+        if (!BCrypt.checkpw(oldPass, user.getPassword())) {new MessageDialog(
+            this,
+            "Error",
+            "Current password is incorrect."
             ).setVisible(true);
 
             return;
@@ -248,12 +247,12 @@ public class ChangePassword extends Frame implements ActionListener {
 
         }
 
-        if (newPass.equals(oldPass)) {
+        if (BCrypt.checkpw(newPass, user.getPassword())) {
 
             new MessageDialog(
-                    this,
-                    "Error",
-                    "New password cannot be the same as the current password."
+            this,
+            "Error",
+            "New password cannot be the same as the current password."
             ).setVisible(true);
 
             return;
@@ -272,10 +271,10 @@ public class ChangePassword extends Frame implements ActionListener {
 
         }
 
-        user.setPassword(newPass);
-
+        String encryptedPassword = BCrypt.hashpw(newPass, BCrypt.gensalt());
+        user.setPassword(encryptedPassword);
         boolean updated = fileManager.updateUser(user);
-
+        
         if (updated) {
 
             new MessageDialog(

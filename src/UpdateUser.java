@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class UpdateUser extends Frame implements ActionListener {
 
@@ -80,7 +81,7 @@ public class UpdateUser extends Frame implements ActionListener {
 
         txtUsername = new TextField(user.getUsername(),25);
         txtUserId = new TextField(user.getUserId(),25);
-        txtPassword = new TextField(user.getPassword(),25);
+        txtPassword = new TextField(25);
         txtGmail = new TextField(user.getGmail(),25);
         txtPhone = new TextField(user.getPhone(),25);
 
@@ -215,14 +216,9 @@ public class UpdateUser extends Frame implements ActionListener {
                 new MessageDialog(this,"Error","Password must contain at least 6 characters.").setVisible(true);
                 return;
             }
+            String encryptedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
 
-            User updatedUser = new User(
-                    username,
-                    userId,
-                    password,
-                    gmail,
-                    phone
-            );
+            User updatedUser = new User(username,userId,encryptedPassword,gmail,phone);
 
             boolean updated = fileManager.updateUser(updatedUser);
 

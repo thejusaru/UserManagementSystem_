@@ -37,8 +37,6 @@ public class ChangePassword extends Frame implements ActionListener {
 
         setBackground(new Color(240,245,252));
 
-        //================ HEADER =================//
-
         Panel header = new Panel(new BorderLayout());
 
         header.setBackground(new Color(25,118,210));
@@ -54,8 +52,6 @@ public class ChangePassword extends Frame implements ActionListener {
         header.add(title, BorderLayout.CENTER);
 
         add(header, BorderLayout.NORTH);
-
-        //================ FORM =================//
 
         Panel form = new Panel(new GridLayout(3,2,30,30));
 
@@ -104,8 +100,6 @@ public class ChangePassword extends Frame implements ActionListener {
         form.add(l3);
         form.add(txtConfirmPassword);
 
-        //================ BUTTONS =================//
-
         Panel buttons = new Panel(new FlowLayout(FlowLayout.CENTER,25,10));
 
         buttons.setBackground(Color.WHITE);
@@ -148,8 +142,6 @@ public class ChangePassword extends Frame implements ActionListener {
 
         buttons.add(btnBack);
 
-        //================ CARD =================//
-
         Panel card = new Panel(new BorderLayout(30,30));
 
         card.setBackground(Color.WHITE);
@@ -168,8 +160,6 @@ public class ChangePassword extends Frame implements ActionListener {
 
         card.add(buttons, BorderLayout.SOUTH);
 
-        //================ WRAPPER =================//
-
         Panel wrapper = new Panel(new GridBagLayout());
 
         wrapper.setBackground(new Color(240,245,252));
@@ -177,8 +167,6 @@ public class ChangePassword extends Frame implements ActionListener {
         wrapper.add(card);
 
         add(wrapper, BorderLayout.CENTER);
-
-        //================ EVENTS =================//
 
         btnSave.addActionListener(this);
 
@@ -201,123 +189,129 @@ public class ChangePassword extends Frame implements ActionListener {
         setVisible(true);
 
     }
+
     public void actionPerformed(ActionEvent e) {
 
-    if (e.getSource() == btnSave) {
+        if (e.getSource() == btnSave) {
 
-        String oldPass = txtOldPassword.getText().trim();
+            String oldPass = txtOldPassword.getText().trim();
 
-        String newPass = txtNewPassword.getText().trim();
+            String newPass = txtNewPassword.getText().trim();
 
-        String confirmPass = txtConfirmPassword.getText().trim();
+            String confirmPass = txtConfirmPassword.getText().trim();
 
-        if (oldPass.equals("") ||
-            newPass.equals("") ||
-            confirmPass.equals("")) {
+            if (oldPass.equals("") ||
+                newPass.equals("") ||
+                confirmPass.equals("")) {
 
-            new MessageDialog(
-                    this,
-                    "Error",
-                    "Please fill all the fields."
-            ).setVisible(true);
+                new MessageDialog(
+                        this,
+                        "Error",
+                        "Please fill all the fields."
+                ).setVisible(true);
 
-            return;
+                return;
+
+            }
+
+            if (!BCrypt.checkpw(oldPass, user.getPassword())) {
+
+                new MessageDialog(
+                        this,
+                        "Error",
+                        "Current password is incorrect."
+                ).setVisible(true);
+
+                return;
+
+            }
+                        if (newPass.length() < 6) {
+
+                new MessageDialog(
+                        this,
+                        "Error",
+                        "Password must contain at least 6 characters."
+                ).setVisible(true);
+
+                return;
+
+            }
+
+            if (BCrypt.checkpw(newPass, user.getPassword())) {
+
+                new MessageDialog(
+                        this,
+                        "Error",
+                        "New password cannot be the same as the current password."
+                ).setVisible(true);
+
+                return;
+
+            }
+
+            if (!newPass.equals(confirmPass)) {
+
+                new MessageDialog(
+                        this,
+                        "Error",
+                        "New password and Confirm password do not match."
+                ).setVisible(true);
+
+                return;
+
+            }
+
+            String encryptedPassword = BCrypt.hashpw(newPass, BCrypt.gensalt());
+
+            user.setPassword(encryptedPassword);
+
+            boolean updated = fileManager.updateUser(user);
+
+            if (updated) {
+
+                new MessageDialog(
+                        this,
+                        "Success",
+                        "Password changed successfully."
+                ).setVisible(true);
+
+                new UserDashboard(user);
+
+                dispose();
+
+            } else {
+
+                new MessageDialog(
+                        this,
+                        "Error",
+                        "Unable to change password."
+                ).setVisible(true);
+
+            }
 
         }
 
-        if (!BCrypt.checkpw(oldPass, user.getPassword())) {new MessageDialog(
-            this,
-            "Error",
-            "Current password is incorrect."
-            ).setVisible(true);
+        if (e.getSource() == btnClear) {
 
-            return;
+            txtOldPassword.setText("");
 
-        }
+            txtNewPassword.setText("");
 
-        if (newPass.length() < 6) {
+            txtConfirmPassword.setText("");
 
-            new MessageDialog(
-                    this,
-                    "Error",
-                    "Password must contain at least 6 characters."
-            ).setVisible(true);
-
-            return;
+            txtOldPassword.requestFocus();
 
         }
 
-        if (BCrypt.checkpw(newPass, user.getPassword())) {
-
-            new MessageDialog(
-            this,
-            "Error",
-            "New password cannot be the same as the current password."
-            ).setVisible(true);
-
-            return;
-
-        }
-
-        if (!newPass.equals(confirmPass)) {
-
-            new MessageDialog(
-                    this,
-                    "Error",
-                    "New password and Confirm password do not match."
-            ).setVisible(true);
-
-            return;
-
-        }
-
-        String encryptedPassword = BCrypt.hashpw(newPass, BCrypt.gensalt());
-        user.setPassword(encryptedPassword);
-        boolean updated = fileManager.updateUser(user);
-        
-        if (updated) {
-
-            new MessageDialog(
-                    this,
-                    "Success",
-                    "Password changed successfully."
-            ).setVisible(true);
+        if (e.getSource() == btnBack) {
 
             new UserDashboard(user);
 
             dispose();
 
-        } else {
-
-            new MessageDialog(
-                    this,
-                    "Error",
-                    "Unable to change password."
-            ).setVisible(true);
-
         }
 
     }
 
-    if (e.getSource() == btnClear) {
-
-        txtOldPassword.setText("");
-
-        txtNewPassword.setText("");
-
-        txtConfirmPassword.setText("");
-
-        txtOldPassword.requestFocus();
-
-    }
-
-    if (e.getSource() == btnBack) {
-
-        new UserDashboard(user);
-
-        dispose();
-
-    }
-
 }
-}
+            

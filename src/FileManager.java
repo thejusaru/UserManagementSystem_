@@ -253,9 +253,7 @@ public class FileManager {
         return null;
 
     }
-    
-
-    public boolean updateUser(User updatedUser) {
+        public boolean updateUser(User updatedUser) {
 
         try {
 
@@ -317,17 +315,16 @@ public class FileManager {
 
     public boolean changePassword(String username, String newPassword) {
 
-    User user = findUser(username);
+        User user = findUser(username);
 
-    if (user == null)
-        return false;
+        if (user == null)
+            return false;
 
-    String encryptedPassword =
-            BCrypt.hashpw(newPassword, BCrypt.gensalt());
+        String encryptedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
 
-    user.setPassword(encryptedPassword);
+        user.setPassword(encryptedPassword);
 
-    return updateUser(user);
+        return updateUser(user);
 
     }
 
@@ -367,8 +364,11 @@ public class FileManager {
         return findUser(username) != null;
 
     }
+
     public boolean userIdExists(String userId) {
+
         return findUserId(userId) != null;
+
     }
 
     public boolean gmailExists(String gmail) {
@@ -384,3 +384,5 @@ public class FileManager {
     }
 
 }
+
+    

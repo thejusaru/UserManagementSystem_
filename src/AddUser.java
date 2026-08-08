@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class AddUser extends Frame implements ActionListener {
 
@@ -34,15 +35,15 @@ public class AddUser extends Frame implements ActionListener {
 
         header.setBackground(new Color(25,118,210));
 
-        title = new Label("ADD NEW USER",Label.CENTER);
+        title = new Label("ADD NEW USER", Label.CENTER);
 
-        title.setFont(new Font("Segoe UI",Font.BOLD,34));
+        title.setFont(new Font("Segoe UI", Font.BOLD, 34));
 
         title.setForeground(Color.WHITE);
 
         header.add(title);
 
-        add(header,BorderLayout.NORTH);
+        add(header, BorderLayout.NORTH);
 
         Panel card = new Panel();
 
@@ -52,13 +53,13 @@ public class AddUser extends Frame implements ActionListener {
 
         card.setPreferredSize(new Dimension(650,560));
 
-        heading = new Label("Create New User Account",Label.CENTER);
+        heading = new Label("Create New User Account", Label.CENTER);
 
-        heading.setFont(new Font("Segoe UI",Font.BOLD,28));
+        heading.setFont(new Font("Segoe UI", Font.BOLD, 28));
 
         heading.setForeground(new Color(25,25,112));
 
-        card.add(heading,BorderLayout.NORTH);
+        card.add(heading, BorderLayout.NORTH);
 
         Panel form = new Panel();
 
@@ -66,9 +67,9 @@ public class AddUser extends Frame implements ActionListener {
 
         form.setBackground(Color.WHITE);
 
-        Font labelFont = new Font("Segoe UI",Font.BOLD,20);
+        Font labelFont = new Font("Segoe UI", Font.BOLD,20);
 
-        Font textFont = new Font("Segoe UI",Font.PLAIN,20);
+        Font textFont = new Font("Segoe UI", Font.PLAIN,20);
 
         l1 = new Label("Username");
         l2 = new Label("User ID");
@@ -111,18 +112,16 @@ public class AddUser extends Frame implements ActionListener {
         form.add(l5);
         form.add(txtPhone);
 
-        card.add(form,BorderLayout.CENTER);
+        card.add(form, BorderLayout.CENTER);
 
         Panel buttonPanel = new Panel(new FlowLayout(FlowLayout.CENTER,25,15));
 
         buttonPanel.setBackground(Color.WHITE);
 
-        Font buttonFont = new Font("Segoe UI",Font.BOLD,18);
+        Font buttonFont = new Font("Segoe UI", Font.BOLD,18);
 
         btnSave = new Button("SAVE USER");
-
         btnClear = new Button("CLEAR");
-
         btnBack = new Button("BACK");
 
         btnSave.setFont(buttonFont);
@@ -146,7 +145,7 @@ public class AddUser extends Frame implements ActionListener {
         buttonPanel.add(btnClear);
         buttonPanel.add(btnBack);
 
-        card.add(buttonPanel,BorderLayout.SOUTH);
+        card.add(buttonPanel, BorderLayout.SOUTH);
 
         Panel center = new Panel(new GridBagLayout());
 
@@ -154,7 +153,7 @@ public class AddUser extends Frame implements ActionListener {
 
         center.add(card);
 
-        add(center,BorderLayout.CENTER);
+        add(center, BorderLayout.CENTER);
 
         btnSave.addActionListener(this);
         btnClear.addActionListener(this);
@@ -185,10 +184,10 @@ public class AddUser extends Frame implements ActionListener {
             String phone = txtPhone.getText().trim();
 
             if (username.equals("") ||
-                    userId.equals("") ||
-                    password.equals("") ||
-                    gmail.equals("") ||
-                    phone.equals("")) {
+                userId.equals("") ||
+                password.equals("") ||
+                gmail.equals("") ||
+                phone.equals("")) {
 
                 new MessageDialog(
                         this,
@@ -212,10 +211,49 @@ public class AddUser extends Frame implements ActionListener {
 
             }
 
+            if (fileManager.findUserId(userId) != null) {
+
+                new MessageDialog(
+                        this,
+                        "Error",
+                        "User ID already exists."
+                ).setVisible(true);
+
+                return;
+
+            }
+
+            if (fileManager.findGmail(gmail) != null) {
+
+                new MessageDialog(
+                        this,
+                        "Error",
+                        "Gmail already exists."
+                ).setVisible(true);
+
+                return;
+
+            }
+
+            if (fileManager.findPhone(phone) != null) {
+
+                new MessageDialog(
+                        this,
+                        "Error",
+                        "Phone number already exists."
+                ).setVisible(true);
+
+                return;
+
+            }
+
+            // Encrypt password using BCrypt
+            String encryptedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+
             User user = new User(
                     username,
                     userId,
-                    password,
+                    encryptedPassword,
                     gmail,
                     phone
             );
@@ -235,6 +273,8 @@ public class AddUser extends Frame implements ActionListener {
                 txtPassword.setText("");
                 txtGmail.setText("");
                 txtPhone.setText("");
+
+                txtUsername.requestFocus();
 
             }
 
@@ -257,6 +297,8 @@ public class AddUser extends Frame implements ActionListener {
             txtPassword.setText("");
             txtGmail.setText("");
             txtPhone.setText("");
+
+            txtUsername.requestFocus();
 
         }
 

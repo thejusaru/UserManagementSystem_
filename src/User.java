@@ -16,7 +16,6 @@ public class User {
         this.phone = phone;
     }
 
-
     public String getUsername() {
         return username;
     }
@@ -37,7 +36,7 @@ public class User {
         return phone;
     }
 
-     public void setUsername(String username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 
@@ -57,10 +56,9 @@ public class User {
         this.phone = phone;
     }
 
+    @Override
     public String toString() {
-
-        return username + "," + userId + ","+ password + ","+ gmail + ","+ phone;
-
+        return username + "," + userId + "," + password + "," + gmail + "," + phone;
     }
 
 }

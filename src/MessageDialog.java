@@ -79,9 +79,9 @@ public class MessageDialog extends Dialog implements ActionListener {
 
         ok.addActionListener(this);
 
-        addWindowListener(new WindowAdapter(){
+        addWindowListener(new WindowAdapter() {
 
-            public void windowClosing(WindowEvent e){
+            public void windowClosing(WindowEvent e) {
 
                 dispose();
 
@@ -101,11 +101,11 @@ public class MessageDialog extends Dialog implements ActionListener {
 
     private void setLocationRelativeTo(Frame parent) {
 
-        if(parent!=null){
+        if(parent != null){
 
-            int x = parent.getX() + (parent.getWidth()-getWidth())/2;
+            int x = parent.getX() + (parent.getWidth() - getWidth()) / 2;
 
-            int y = parent.getY() + (parent.getHeight()-getHeight())/2;
+            int y = parent.getY() + (parent.getHeight() - getHeight()) / 2;
 
             setLocation(x,y);
 
